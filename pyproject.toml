@@ -1,0 +1,17 @@
+[project]
+name = "diegobit-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "attachments>=0.21.0",
+    "browser-use>=0.5.4",
+    "docling>=2.41.0",
+    "linkedin-scraper>=2.11.5",
+    "numpy<2",
+    "playwright>=1.53.0",
+    "python-dotenv>=1.1.1",
+    "torch==2.2.2",
+    "torchvision==0.17.2",
+]
