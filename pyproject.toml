@@ -6,9 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "attachments>=0.21.0",
-    "browser-use>=0.5.4",
+    "browser-use>=0.5.5",
     "docling>=2.41.0",
-    "linkedin-scraper>=2.11.5",
     "numpy<2",
     "playwright>=1.53.0",
     "python-dotenv>=1.1.1",
