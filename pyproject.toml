@@ -1,7 +1,7 @@
 [project]
-name = "diegobit-ai"
+name = "askthebio"
 version = "0.1.0"
-description = "Add your description here"
+description = "Tool to make an LLM know everything about your identity."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
