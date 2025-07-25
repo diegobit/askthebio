@@ -74,19 +74,25 @@ async def main():
     results = []
 
     for url_obj in user_input.urls:
-        if "github" in url_obj.url or "gitlab" in url_obj.url:
+        netloc = urlparse(url_obj.url).netloc
+        if netloc == "github.com":
             builder = CodeRepoBuilder()
             url_tag = "code_repo"
-        elif "linkedin" in url_obj.url:
+        elif "gitlab" in netloc or "bitbucket" in netloc:
+            builder = CodeRepoBuilder()
+            url_tag = "code_repo"
+        elif netloc == "huggingface.co":
+            builder = HFBuilder()
+            url_tag = "huggingface"
+        elif netloc == "linkedin.com":
             builder = LinkedinBuilder()
             url_tag = "linkedin"
-        elif "x" in url_obj.url:
+        elif netloc == "x.com":
             builder = XBuilder()
             url_tag = "x"
         else:
             builder = WebsiteBuilder()
             url_tag = url_obj.url_tag
-            # TODO: implement
 
         results.append(
             browser_use(
