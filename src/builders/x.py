@@ -1,4 +1,5 @@
 import inspect
+from typing import Type
 
 from pydantic import BaseModel
 
@@ -30,8 +31,8 @@ class XBuilder(BaseBuilder):
 
     @staticmethod
     def controller_kwargs() -> dict:
-        return {"output_model": XResult}
+        return {"output_model": XBuilder.result_class()}
 
     @staticmethod
-    def result_class() -> BaseModel:
+    def result_class() -> Type[BaseModel]:
         return XResult

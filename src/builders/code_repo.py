@@ -1,4 +1,5 @@
 import inspect
+from typing import Type
 
 from pydantic import BaseModel
 
@@ -53,9 +54,9 @@ class CodeRepoBuilder(BaseBuilder):
 
     @staticmethod
     def controller_kwargs() -> dict:
-        return {"output_model": CodeRepoResult}
+        return {"output_model": CodeRepoBuilder.result_class()}
 
     @staticmethod
-    def result_class() -> BaseModel:
+    def result_class() -> Type[BaseModel]:
         return CodeRepoResult
 

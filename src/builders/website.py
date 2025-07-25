@@ -1,4 +1,5 @@
 import inspect
+from typing import Type
 
 from pydantic import BaseModel, Field
 
@@ -40,8 +41,8 @@ class WebsiteBuilder(BaseBuilder):
 
     @staticmethod
     def controller_kwargs() -> dict:
-        return {"output_model": PageResult}
+        return {"output_model": WebsiteBuilder.result_class()}
 
     @staticmethod
-    def result_class() -> BaseModel:
-        return WebsiteBuilder
+    def result_class() -> Type[BaseModel]:
+        return PageResult
