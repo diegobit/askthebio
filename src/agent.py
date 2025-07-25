@@ -1,5 +1,6 @@
 import os
 import asyncio
+from typing import Type
 from pydantic import BaseModel
 
 from browser_use import Agent, BrowserSession, Controller
@@ -11,7 +12,7 @@ from builders import CodeRepoBuilder, LinkedinBuilder, WebsiteBuilder, XBuilder
 async def browser_use(
     prompt: str,
     controller_args: dict,
-    result_class: BaseModel,
+    result_class: Type[BaseModel],
     out_path: str,
     max_steps: int = 25,
     verbose: bool = False
