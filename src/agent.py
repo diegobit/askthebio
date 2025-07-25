@@ -33,7 +33,11 @@ async def browser_use(
 
     agent = Agent(
         task=prompt,
-        llm=ChatGoogle(model=os.environ['MODEL'], temperature=0.3),
+        llm=ChatGoogle(
+            model=os.environ['MODEL'],
+            temperature=0.3,
+            thinking_budget=0,
+        ),
         controller=controller,
         browser_session=browser_session,
         downloads_path=out_path,
