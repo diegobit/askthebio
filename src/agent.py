@@ -99,7 +99,7 @@ async def main():
                 prompt=builder.prompt(user_input.name, url_obj.url, url_tag),
                 controller_args=builder.controller_kwargs(),
                 result_class=builder.result_class(),
-                max_steps=25,
+                max_steps=100,
                 out_path=os.path.join("out", builder.name()),
                 verbose=True
             )
