@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Type
 
 class BaseBuilder():
     @staticmethod
@@ -14,6 +15,6 @@ class BaseBuilder():
         raise NotImplementedError
 
     @staticmethod
-    def result_class(*args, **kwargs) -> BaseModel:
+    def result_class(*args, **kwargs) -> Type[BaseModel]:
         raise NotImplementedError
 

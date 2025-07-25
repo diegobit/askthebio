@@ -1,4 +1,5 @@
 import inspect
+from typing import Type
 
 from pydantic import BaseModel
 
@@ -65,9 +66,9 @@ class LinkedinBuilder(BaseBuilder):
 
     @staticmethod
     def controller_kwargs() -> dict:
-        return {"output_model": LinkedinResult}
+        return {"output_model": LinkedinBuilder.result_class()}
 
     @staticmethod
-    def result_class() -> BaseModel:
+    def result_class() -> Type[BaseModel]:
         return LinkedinResult
 
