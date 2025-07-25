@@ -1,5 +1,6 @@
 import os
 import asyncio
+from urllib.parse import urlparse
 from typing import Type
 from pydantic import BaseModel
 
@@ -7,7 +8,7 @@ from browser_use import Agent, BrowserSession, Controller
 from browser_use.llm import ChatGoogle
 
 from user_input import Url, UserInput
-from builders import CodeRepoBuilder, LinkedinBuilder, WebsiteBuilder, XBuilder
+from builders import CodeRepoBuilder, LinkedinBuilder, WebsiteBuilder, XBuilder, HFBuilder
 
 async def browser_use(
     prompt: str,
@@ -58,7 +59,7 @@ async def main():
     user_input = UserInput(
         name="Diego Giorgini",
         urls=[
-            Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=None)
+            Url(url="https://huggingface.co/julien-c", url_tag=None),
         ]
     )
 
