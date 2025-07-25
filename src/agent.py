@@ -61,9 +61,13 @@ async def browser_use(
 
 async def main():
     user_input = UserInput(
-        name="Diego Giorgini",
+        name="Julien Chaumond",
         urls=[
+            # Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=None),
+            # Url(url="https://www.github.com/diegobit", url_tag=None),
+            # Url(url="https://www.x.com/diegobit10", url_tag=None),
             Url(url="https://huggingface.co/julien-c", url_tag=None),
+            # Url(url="https://diegobit.com", url_tag="personal website"),
         ]
     )
 
