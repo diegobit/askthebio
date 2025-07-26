@@ -57,6 +57,10 @@ class CodeRepoBuilder(BaseBuilder):
         return {"output_model": CodeRepoBuilder.result_class()}
 
     @staticmethod
+    def allowed_domains() -> list[str]|None:
+        return ["*.github.com", "*.uithub.com", "*.gitlab.com", "*.bitbucket.com"]
+
+    @staticmethod
     def result_class() -> Type[BaseModel]:
         return CodeRepoResult
 

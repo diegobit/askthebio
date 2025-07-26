@@ -69,6 +69,10 @@ class LinkedinBuilder(BaseBuilder):
         return {"output_model": LinkedinBuilder.result_class()}
 
     @staticmethod
+    def allowed_domains() -> list[str]|None:
+        return ["*.linkedin.com"]
+
+    @staticmethod
     def result_class() -> Type[BaseModel]:
         return LinkedinResult
 

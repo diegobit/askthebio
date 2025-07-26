@@ -84,6 +84,10 @@ class HFBuilder(BaseBuilder):
         return {"output_model": HFBuilder.result_class()}
 
     @staticmethod
+    def allowed_domains() -> list[str]|None:
+        return ["*.huggingface.co"]
+
+    @staticmethod
     def result_class() -> Type[BaseModel]:
         return HFResult
 
