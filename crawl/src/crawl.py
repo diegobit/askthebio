@@ -93,8 +93,10 @@ async def crawl_user(user: UserInput):
             )
         )
 
-    for res in results:
-        await res
+    # for res in results:
+    #     await res
+    await asyncio.gather(*results)
+
 
 async def main():
     user= UserInput(
