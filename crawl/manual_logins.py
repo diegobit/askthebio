@@ -4,7 +4,9 @@ from browser_use import BrowserSession   # no Agent yet – we’ll drive it our
 async def manual_logins():
     session = BrowserSession(
         headless=False,                      # visible window so *you* can click
-        user_data_dir="~/.config/browseruse/profiles/my_profile",  # persists every cookie
+        # user_data_dir="~/.config/browseruse/profiles/my_profile",  # persists every cookie
+        user_data_dir=None,
+        storage_state="browser-use-auth-data.json",
         keep_alive=True                      # session stays up until you close it
     )
 
@@ -14,7 +16,8 @@ async def manual_logins():
     urls = [
         "https://github.com/login",
         "https://www.linkedin.com/login",
-        "https://www.x.com"
+        "https://www.x.com",
+        "https://huggingface.co/login"
     ]
     await page.goto(urls[0])
     for url in urls[1:]:
@@ -24,6 +27,6 @@ async def manual_logins():
     print("Browser is ready – sign in everywhere, then ^C or close the window.")
     await asyncio.Event().wait()
 
-    await session.save_storage_state("auth.json")
+    await session.save_storage_state("browser-use-auth-data.json")
 
 asyncio.run(manual_logins())
