@@ -110,7 +110,7 @@ async def main():
         ]
     )
 
-    await crawl_user(user)
+    await crawl_user(user, out_path="out")
 
 
 if __name__ == "__main__":
