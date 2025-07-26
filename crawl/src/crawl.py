@@ -58,22 +58,10 @@ async def browser_use(
     else:
         print('No result')
 
-
-async def main():
-    user_input = UserInput(
-        name="Julien Chaumond",
-        urls=[
-            # Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=None),
-            # Url(url="https://www.github.com/diegobit", url_tag=None),
-            # Url(url="https://www.x.com/diegobit10", url_tag=None),
-            Url(url="https://huggingface.co/julien-c", url_tag=None),
-            # Url(url="https://diegobit.com", url_tag="personal website"),
-        ]
-    )
-
+async def crawl_user(user: UserInput):
     results = []
 
-    for url_obj in user_input.urls:
+    for url_obj in user.urls:
         netloc = urlparse(url_obj.url).netloc
         if netloc == "github.com":
             builder = CodeRepoBuilder()
@@ -96,7 +84,7 @@ async def main():
 
         results.append(
             browser_use(
-                prompt=builder.prompt(user_input.name, url_obj.url, url_tag),
+                prompt=builder.prompt(user.name, url_obj.url, url_tag),
                 controller_args=builder.controller_kwargs(),
                 result_class=builder.result_class(),
                 max_steps=100,
@@ -107,6 +95,21 @@ async def main():
 
     for res in results:
         await res
+
+async def main():
+    user= UserInput(
+        name="Diego Giorgini",
+        urls=[
+            Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=None),
+            Url(url="https://www.github.com/diegobit", url_tag=None),
+            Url(url="https://www.x.com/diegobit10", url_tag=None),
+            Url(url="https://www.huggingface.co/diegobit", url_tag=None),
+            Url(url="https://diegobit.com", url_tag="personal website"),
+        ]
+    )
+
+    await crawl_user(user)
+
 
 if __name__ == "__main__":
     from dotenv import load_dotenv
