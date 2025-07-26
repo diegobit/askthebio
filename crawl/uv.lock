@@ -61,7 +61,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ask-the-bio"
+name = "askthebio"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
