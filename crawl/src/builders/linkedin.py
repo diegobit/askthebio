@@ -48,6 +48,7 @@ class LinkedinResult(BaseModel):
     certifications: list[LinkedinCertification]
     skills: list[str]
     posts: list[str]
+    reposts: list[str]
     interests: str
     profile_summary: str
 
@@ -61,7 +62,11 @@ class LinkedinBuilder(BaseBuilder):
         return inspect.cleandoc(f"""
             Get all information from {fullname} from his/her LinkedIn profile. Start from URL {url}.
 
-            Extract his/her profession, experiences, education, certifications, etc. Check out the most recent 10 updates, including posts, reposts, etc: if you see a post, download it.
+            Extract his/her profession, experiences, education, certifications, etc. Check out the most recent 10 updates, including posts, reposts, etc
+              - if you see a post by {fullname}, download it.
+              - if you see a repost, only make a summary.
+
+            Be thorough, truthful and factual.
         """)
 
     @staticmethod

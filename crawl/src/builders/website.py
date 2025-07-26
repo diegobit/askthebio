@@ -7,13 +7,13 @@ from .base_builder import BaseBuilder
 
 class PageChunk(BaseModel):
     title_or_tag: str = Field("one/two word description of the chunk")
-    content: str
+    snippet: str
 
 class Page(BaseModel):
     url: str
     tag: str = Field(description="One of: 'personal_website', 'online_cv', 'article_about_the_user', 'article_written_by_the_user', 'social_page', 'other'")
-    relevant_contents: list[PageChunk]
-    summary: str
+    content_snippets: list[PageChunk]
+    page_summary: str
 
 class PageResult(BaseModel):
     root_url: str
@@ -36,7 +36,9 @@ class WebsiteBuilder(BaseBuilder):
 
             Always check whether a /llms.txt file exists: that will give you a good look on the hierarchy of the website.
 
-            Do not write in the final result object any consideration about the extraction; only put information about Diego.
+            Do not write in the final result object any consideration about the extraction; only put information about {fullname}.
+
+            Be thorough, truthful and factual.
         """)
 
     @staticmethod

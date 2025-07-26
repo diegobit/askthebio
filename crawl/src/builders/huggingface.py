@@ -72,11 +72,12 @@ class HFBuilder(BaseBuilder):
         return inspect.cleandoc(f"""
             Get information about {fullname} by crawling his/her huggingface repository. The URL to start is {url}.{additional}
 
-            Check his posts, articles, collections, papers, models, datasets, spaces, etc, and extract overview information for the most recent of each (at least three per category). It's not important to have everything, but what you get should be perfectly accurate. Even if you don't crawl detailed information about everything, get the count of things he/she made, to understand at least how active {fullname} is. Not every section could be present in {fullname}'s profile: that means he/she has 0 of that.
+            Check his posts, articles, collections, papers, models, datasets, spaces, etc, and extract overview information for the most recent of each (at least three per category):
+              - Even if you don't crawl detailed information about everything, get the count of things he/she made, to understand at least how active {fullname} is.
+              - If you can't find a section in {fullname}'s profile, that means the section is not present and {fullname} has 0 of that. Don't obsess about it.
+              - For models, datasets, spaces, get the most recent and the ones with the most downloads (use the radio button to change the sorting). Make sure to keep only things made by {fullname}.
 
-            For models, datasets, spaces, get the most recent and the ones with the most downloads (use the radio button to change the sorting). Make sure to keep only things made by {fullname}.
-
-            Be thorough, don't end until you have everything you need.
+            Be thorough, truthful and factual.
         """)
 
     @staticmethod
