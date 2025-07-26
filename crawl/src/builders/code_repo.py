@@ -38,9 +38,9 @@ class CodeRepoResult(BaseModel):
     sponsoring_projects_or_users: list[SponsorRef]
 
 class CodeRepoBuilder(BaseBuilder):
-    @staticmethod
-    def name() -> str:
-        return "code_repo"
+    def __init__(self, url_tag: str = "code_repo", name: str = "code_repo") -> None:
+        super().__init__(url_tag)
+        self.name = name
 
     @staticmethod
     def prompt(fullname, url, url_tag) -> str:
@@ -63,4 +63,3 @@ class CodeRepoBuilder(BaseBuilder):
     @staticmethod
     def result_class() -> Type[BaseModel]:
         return CodeRepoResult
-

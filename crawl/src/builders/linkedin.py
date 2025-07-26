@@ -52,9 +52,9 @@ class LinkedinResult(BaseModel):
     profile_summary: str
 
 class LinkedinBuilder(BaseBuilder):
-    @staticmethod
-    def name() -> str:
-        return "linkedin"
+    def __init__(self, url_tag: str = "linkedin", name: str = "linkedin") -> None:
+        super().__init__(url_tag)
+        self.name = name
 
     @staticmethod
     def prompt(fullname, url, url_tag) -> str:

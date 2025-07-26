@@ -17,9 +17,8 @@ class XResult(BaseModel):
     profile_summary: str
 
 class XBuilder(BaseBuilder):
-    @staticmethod
-    def name() -> str:
-        return "x"
+    def __init__(self, url_tag: str = "x", name: str = "x") -> None:
+        super().__init__(url_tag)
 
     @staticmethod
     def prompt(fullname, url, url_tag) -> str:

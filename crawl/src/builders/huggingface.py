@@ -59,9 +59,9 @@ class HFResult(BaseModel):
     summary: str = Field(description="Summary of the profile: is the user active? What's the user's focus? What's the most important contribution?")
 
 class HFBuilder(BaseBuilder):
-    @staticmethod
-    def name() -> str:
-        return "huggingface"
+    def __init__(self, url_tag: str = "huggingface", name: str = "huggingface") -> None:
+        super().__init__(url_tag)
+        self.name = name
 
     @staticmethod
     def prompt(fullname, url, url_tag) -> str:
