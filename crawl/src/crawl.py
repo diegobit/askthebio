@@ -58,7 +58,7 @@ async def browser_use(
     else:
         print('No result')
 
-async def crawl_user(user: UserInput):
+async def crawl_user(user: UserInput, out_path: str):
     results = []
 
     for url_obj in user.urls:
@@ -88,7 +88,7 @@ async def crawl_user(user: UserInput):
                 controller_args=builder.controller_kwargs(),
                 result_class=builder.result_class(),
                 max_steps=100,
-                out_path=os.path.join("out", builder.name()),
+                out_path=os.path.join(out_path, builder.name()),
                 verbose=True
             )
         )
