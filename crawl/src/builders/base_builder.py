@@ -18,3 +18,7 @@ class BaseBuilder():
     def result_class(*args, **kwargs) -> Type[BaseModel]:
         raise NotImplementedError
 
+    @staticmethod
+    def allowed_domains() -> list[str]|None:
+        raise NotImplementedError
+

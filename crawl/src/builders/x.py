@@ -34,5 +34,9 @@ class XBuilder(BaseBuilder):
         return {"output_model": XBuilder.result_class()}
 
     @staticmethod
+    def allowed_domains() -> list[str]|None:
+        return ["*.x.com"]
+
+    @staticmethod
     def result_class() -> Type[BaseModel]:
         return XResult

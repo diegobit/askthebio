@@ -44,5 +44,9 @@ class WebsiteBuilder(BaseBuilder):
         return {"output_model": WebsiteBuilder.result_class()}
 
     @staticmethod
+    def allowed_domains() -> list[str]|None:
+        return None
+
+    @staticmethod
     def result_class() -> Type[BaseModel]:
         return PageResult
