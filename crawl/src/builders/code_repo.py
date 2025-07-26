@@ -12,30 +12,36 @@ class Repo(BaseModel):
     languages: list[str]
     readme_summary: str
     code_overview: str
-    other: str # TODO: keep?
+    last_update: str
+    license: str
+    last_commit: str
+    other: str
 
 class RepoRef(BaseModel):
     name: str
     author: str
     short_summary: str
-    other: str# TODO: keep?
 
 class SponsorRef(BaseModel):
     name: str
     id: str
     currently_active_sponsorship: bool
     sponsorship_amount: int
-    other: str# TODO: keep?
 
 class CodeRepoResult(BaseModel):
     username: str
-    contact_info: list[str]
-    bio: str
+    company: str
+    location: str
+    personal_bio: str
+    email: str
+    socials: str
     achievements: str
     contributions_last_year: int
-    repositories: list[Repo]
-    most_recent_starred_projects: list[RepoRef]
+    repositories_detailed: list[Repo]
+    repositories_basic: list[RepoRef]
+    other_people_starred_repos: list[RepoRef]
     sponsoring_projects_or_users: list[SponsorRef]
+    profile_summary: str
 
 class CodeRepoBuilder(BaseBuilder):
     def __init__(self, url_tag: str = "code_repo", name: str = "code_repo") -> None:
@@ -47,9 +53,11 @@ class CodeRepoBuilder(BaseBuilder):
         return inspect.cleandoc(f"""
             Get information about what and how the code of {fullname} by crawling his/her repositories. The URL to start is {url}.
 
-            Navigate the most popular or most recent (limit yourself to 50) repos, go inside the repo, read the README.md, navigate the hierarchy, and get high level information about each project.
+            About repos:
+            - Gather detailed information about 5/10 repos among the pinned ones, the most popular and the most recently updated repos of {fullname} (into repositories_detailed object): Get the overview from the README.md; if unavailable, or you need more information, use `get_github_code` function to get in a single step a the first lines of each file in the repo.
+            - For all other repos, Only gather basic information (repositories_basic object).
 
-            From this you will have to understand if {fullname} is writing a lot or a little open source code, which languages, what kind of projects, if he/she is spending effort into it, or not.
+            Be thorough, truthful and factual.
         """)
 
     @staticmethod

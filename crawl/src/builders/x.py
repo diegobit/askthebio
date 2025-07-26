@@ -13,7 +13,7 @@ class XResult(BaseModel):
     follower_count: str
     following_count: str
     posts: list[str]
-    repost_and_like_summary: str
+    repost_and_likes_summary: str
     profile_summary: str
 
 class XBuilder(BaseBuilder):
@@ -25,7 +25,13 @@ class XBuilder(BaseBuilder):
         return inspect.cleandoc(f"""
             Get personal information from {fullname} by reading the profile and some "tweets"/posts from x.com. The profile URL is {url}.
 
-            Try to understand {fullname} from the most recent 10 updates, including posts, reposts, likes: if you see a post written by {fullname}, copy-paste it; if you see a repost or a like, try to understand what {fullname} seems to like.
+            Try to understand {fullname} interests, habits and ideas.
+
+            Check the from the most recent 10 updates, including posts, reposts, likes
+                - if you see a post written by {fullname}, copy-paste it
+                - if you see a repost (also named 'You reposted') or a like, just make a summary.
+
+            Be thorough, truthful and factual.
         """)
 
     @staticmethod
