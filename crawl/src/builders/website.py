@@ -23,9 +23,9 @@ class PageResult(BaseModel):
     overall_summary: str
 
 class WebsiteBuilder(BaseBuilder):
-    @staticmethod
-    def name() -> str:
-        return "website"
+    def __init__(self, url_tag: str = "a website", name: str = "website") -> None:
+        super().__init__(url_tag)
+        self.name = name
 
     @staticmethod
     def prompt(fullname, url, url_tag) -> str:
