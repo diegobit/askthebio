@@ -10,6 +10,7 @@ from browser_use.llm import ChatGoogle
 from user_input import Url, UserInput
 from builders import CodeRepoBuilder, LinkedinBuilder, WebsiteBuilder, XBuilder, HFBuilder
 
+
 async def crawl_user(
     user: UserInput,
     out_path: str,
@@ -18,33 +19,33 @@ async def crawl_user(
     running_agents: list[CoroutineType] = []
 
     # Run an agent for each url
-    for url_obj in user.urls:
-        netloc = urlparse(url_obj.url).netloc.replace("www.", "")
+    for link in user.urls:
+        netloc = urlparse(link.url).netloc.replace("www.", "")
 
         # Make builder for specific website
         if netloc == "github.com":
-            print(f"Processing {url_obj.url} as GitHub")
+            print(f"Processing {link.url} as GitHub")
             builder = CodeRepoBuilder(name="github")
 
         elif "gitlab" in netloc or "bitbucket" in netloc:
-            print(f"Processing {url_obj.url} as Other code repo")
+            print(f"Processing {link.url} as Other code repo")
             builder = CodeRepoBuilder()
 
         elif netloc == "huggingface.co":
-            print(f"Processing {url_obj.url} as Huggingface")
+            print(f"Processing {link.url} as Huggingface")
             builder = HFBuilder()
 
         elif netloc == "linkedin.com":
-            print(f"Processing {url_obj.url} as Linkedin")
+            print(f"Processing {link.url} as Linkedin")
             builder = LinkedinBuilder()
 
         elif netloc == "x.com":
-            print(f"Processing {url_obj.url} as X")
+            print(f"Processing {link.url} as X")
             builder = XBuilder()
 
         else:
-            print(f"Processing {url_obj.url} as Website")
-            builder = WebsiteBuilder(url_obj.url_tag)
+            print(f"Processing {link.url} as Website")
+            builder = WebsiteBuilder(url_desc=link.description)
             controller = Controller(**builder.controller_kwargs())
 
         # Make browser-use controller
@@ -78,7 +79,7 @@ async def crawl_user(
         os.makedirs(logs_path, exist_ok=True)
 
         agent = Agent(
-            task=builder.prompt(user.name, url_obj.url, url_obj.url_tag),
+            task=builder.prompt(user.name, link.url, link.description),
             llm=ChatGoogle(
                 model=os.environ['MODEL'],
                 temperature=0.3,
@@ -118,14 +119,14 @@ async def crawl_user(
 
 
 async def main():
-    user= UserInput(
+    user = UserInput(
         name="Diego Giorgini",
         urls=[
-            # Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=""),
-            Url(url="https://www.github.com/diegobit/aranet4-mcp-server", url_tag=""),
-        #     Url(url="https://www.x.com/diegobit10", url_tag=""),
-        #     Url(url="https://www.huggingface.co/diegobit", url_tag=""),
-        #     Url(url="https://diegobit.com", url_tag="personal website"),
+            Url(url="https://www.linkedin.com/in/diego-giorgini", description=""),
+            Url(url="https://www.github.com/diegobit/aranet4-mcp-server", description=""),
+            Url(url="https://www.x.com/diegobit10", description=""),
+            Url(url="https://www.huggingface.co/diegobit", description=""),
+            Url(url="https://diegobit.com", description="personal website"),
         ]
     )
 

@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class Url(BaseModel):
     url: str
-    url_tag: str = ""
+    description: str = ""
 
 class UserInput(BaseModel):
     name: str

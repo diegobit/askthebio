@@ -23,16 +23,16 @@ class PageResult(BaseModel):
     overall_summary: str
 
 class WebsiteBuilder(BaseBuilder):
-    def __init__(self, url_tag: str = "a website", name: str = "website") -> None:
-        super().__init__(url_tag)
+    def __init__(self, url_desc: str = "a website", name: str = "website") -> None:
+        super().__init__(url_desc)
         self.name = name
 
     @staticmethod
-    def prompt(fullname, url, url_tag) -> str:
+    def prompt(fullname, url, url_desc) -> str:
         return inspect.cleandoc(f"""
             I'm gathering all personal information from {fullname} to build a comprehensive profile. I'm equally interested in factual knowledge about {fullname} and in getting to know {fullname} as a person.
 
-            Your task is to crawl this website: {url}. The website is tagged as "{url_tag}".
+            Your task is to crawl this website: {url}. The website is tagged as "{url_desc}".
 
             Always check whether a /llms.txt file exists: that will give you a good look on the hierarchy of the website.
 

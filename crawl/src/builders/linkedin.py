@@ -53,12 +53,12 @@ class LinkedinResult(BaseModel):
     profile_summary: str
 
 class LinkedinBuilder(BaseBuilder):
-    def __init__(self, url_tag: str = "linkedin", name: str = "linkedin") -> None:
-        super().__init__(url_tag)
+    def __init__(self, url_desc: str = "linkedin", name: str = "linkedin") -> None:
+        super().__init__(url_desc)
         self.name = name
 
     @staticmethod
-    def prompt(fullname, url, url_tag) -> str:
+    def prompt(fullname, url, url_desc) -> str:
         return inspect.cleandoc(f"""
             Get all information from {fullname} from his/her LinkedIn profile. Start from URL {url}.
 

@@ -59,15 +59,15 @@ class HFResult(BaseModel):
     summary: str = Field(description="Summary of the profile: is the user active? What's the user's focus? What's the most important contribution?")
 
 class HFBuilder(BaseBuilder):
-    def __init__(self, url_tag: str = "huggingface", name: str = "huggingface") -> None:
-        super().__init__(url_tag)
+    def __init__(self, url_desc: str = "huggingface", name: str = "huggingface") -> None:
+        super().__init__(url_desc)
         self.name = name
 
     @staticmethod
-    def prompt(fullname, url, url_tag) -> str:
+    def prompt(fullname, url, url_desc) -> str:
         additional = ""
-        if url_tag:
-            additional = f" {fullname} gave this additional information: {url_tag}"
+        if url_desc:
+            additional = f" {fullname} gave this additional information: {url_desc}"
 
         return inspect.cleandoc(f"""
             Get information about {fullname} by crawling his/her huggingface repository. The URL to start is {url}.{additional}
