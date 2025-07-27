@@ -1,12 +1,14 @@
 import os
 import asyncio
+import json
 from urllib.parse import urlparse
 from types import CoroutineType
+from datetime import datetime
 
 from browser_use import Agent, BrowserSession, BrowserProfile
 from browser_use.llm import ChatGoogle
 
-from user_input import Link, UserInput
+from user_input import Link, UserInput, Text, Doc
 from customizations import CodeRepo, GitHub, Linkedin, Website, X, HuggingFace
 
 
@@ -15,6 +17,24 @@ async def crawl_user(
     out_path: str,
     verbose: bool = False
 ):
+    final_result = {}
+
+    # ---------------------------------
+    # TEXTS
+    # ---------------------------------
+    for text in user.texts:
+        final_result[text.title] = text.content
+
+    # ---------------------------------
+    # DOCS
+    # ---------------------------------
+    # TODO: implement
+    # for doc in user.docs:
+    #     ...
+
+    # ---------------------------------
+    # LINKS
+    # ---------------------------------
     running_agents: list[CoroutineType] = []
 
     # Run an agent for each url
@@ -65,8 +85,10 @@ async def crawl_user(
         await window.start()
 
         # Start browser-use agent
-        logs_path = os.path.join(agent_builder.out_path, "logs/conversation")
-        os.makedirs(logs_path, exist_ok=True)
+        logs_path = None
+        if verbose:
+            logs_path = os.path.join(agent_builder.out_path, "logs/conversation")
+            os.makedirs(logs_path, exist_ok=True)
 
         agent = Agent(
             task=agent_builder.prompt(user.name),
@@ -100,17 +122,28 @@ async def crawl_user(
         result = history.final_result()
         if result:
             parsed = agent_builder.result_class().model_validate_json(result)
-            print(parsed)
+            parsed_j = parsed.model_dump_json(indent=2)
+            parsed_j["knowledge_cutoff_date"] = datetime.isoformat(datetime.now()),
+            final_result[agent_builder.name] = parsed_j
+            if verbose:
+                print(parsed_j)
             with open(os.path.join(agent_builder.out_path, "extraction.json"), "w", encoding="utf-8") as f:
-                f.write(parsed.model_dump_json(indent=2))
+                f.write(parsed_j)
         else:
-            print('No result')
+            print(f'No result from {agent_builder.link.url}')
+            final_result[agent_builder.name] = {}
+
+    with open(os.path.join(out_path, "merged_results.json"), "w") as f:
+        json.dump(final_result, f, indent=2)
 
 
 
 async def main():
     user = UserInput(
         name="Diego Giorgini",
+        texts=[
+        ],
+        docs=[],
         links=[
             Link(url="https://www.linkedin.com/in/diego-giorgini", description=""),
             Link(url="https://www.github.com/diegobit/aranet4-mcp-server", description=""),
