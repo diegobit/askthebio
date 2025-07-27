@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
-class Url(BaseModel):
+class Link(BaseModel):
     url: str
     description: str = ""
 
 class UserInput(BaseModel):
     name: str
-    urls: list[Url]
+    links: list[Link]
 

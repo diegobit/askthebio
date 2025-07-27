@@ -2,9 +2,44 @@ import inspect
 from typing import Type
 
 from pydantic import BaseModel
+from browser_use import Controller
 
-from .base_builder import BaseBuilder
+from .base_customization import BaseCustomization
 
+
+class Linkedin(BaseCustomization):
+    def __init__(
+        self,
+        name="linkedin",
+        allowed_domains=["*.linkedin.com"],
+        *args,
+        **kwargs
+    ) -> None:
+        super().__init__(name=name, allowed_domains=allowed_domains, *args, **kwargs)
+
+    def prompt(self, fullname: str) -> str:
+        return inspect.cleandoc(f"""
+            Get all information from {fullname} from his/her LinkedIn profile. Start from URL {self.link.url}.
+
+            Extract his/her profession, experiences, education, certifications, etc. Check out the most recent 10 updates, including posts, reposts, etc
+              - if you see a post by {fullname}, download it.
+              - if you see a repost, only make a summary.
+
+            Be thorough, truthful and factual.
+        """)
+
+    @staticmethod
+    def controller() -> Controller:
+        return Controller(
+            output_model=LinkedinResult
+        )
+
+    @staticmethod
+    def result_class() -> Type[BaseModel]:
+        return LinkedinResult
+
+
+# Result classes
 class LinkedinPersonalInfo(BaseModel):
     name: str
     job_title: str
@@ -51,33 +86,3 @@ class LinkedinResult(BaseModel):
     reposts: list[str]
     interests: str
     profile_summary: str
-
-class LinkedinBuilder(BaseBuilder):
-    def __init__(self, url_desc: str = "linkedin", name: str = "linkedin") -> None:
-        super().__init__(url_desc)
-        self.name = name
-
-    @staticmethod
-    def prompt(fullname, url, url_desc) -> str:
-        return inspect.cleandoc(f"""
-            Get all information from {fullname} from his/her LinkedIn profile. Start from URL {url}.
-
-            Extract his/her profession, experiences, education, certifications, etc. Check out the most recent 10 updates, including posts, reposts, etc
-              - if you see a post by {fullname}, download it.
-              - if you see a repost, only make a summary.
-
-            Be thorough, truthful and factual.
-        """)
-
-    @staticmethod
-    def controller_kwargs() -> dict:
-        return {"output_model": LinkedinBuilder.result_class()}
-
-    @staticmethod
-    def allowed_domains() -> list[str]|None:
-        return ["*.linkedin.com"]
-
-    @staticmethod
-    def result_class() -> Type[BaseModel]:
-        return LinkedinResult
-
