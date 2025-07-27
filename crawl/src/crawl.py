@@ -1,8 +1,7 @@
 import os
 import asyncio
 from urllib.parse import urlparse
-from typing import Type
-from pydantic import BaseModel
+from types import CoroutineType
 
 import requests
 from browser_use import Agent, BrowserSession, Controller, BrowserProfile, ActionResult
@@ -16,44 +15,39 @@ async def crawl_user(
     out_path: str,
     verbose: bool = False
 ):
-    # logs_path = None
-    # if verbose:
-    #     logs_path = os.path.join(out_path, "logs/conversation")
-    #     os.makedirs(logs_path, exist_ok=True)
+    running_agents: list[CoroutineType] = []
 
-    running_agents = []
-
+    # Run an agent for each url
     for url_obj in user.urls:
         netloc = urlparse(url_obj.url).netloc.replace("www.", "")
+
+        # Make builder for specific website
         if netloc == "github.com":
             print(f"Processing {url_obj.url} as GitHub")
             builder = CodeRepoBuilder(name="github")
+
         elif "gitlab" in netloc or "bitbucket" in netloc:
             print(f"Processing {url_obj.url} as Other code repo")
             builder = CodeRepoBuilder()
+
         elif netloc == "huggingface.co":
             print(f"Processing {url_obj.url} as Huggingface")
             builder = HFBuilder()
+
         elif netloc == "linkedin.com":
             print(f"Processing {url_obj.url} as Linkedin")
             builder = LinkedinBuilder()
+
         elif netloc == "x.com":
             print(f"Processing {url_obj.url} as X")
             builder = XBuilder()
+
         else:
             print(f"Processing {url_obj.url} as Website")
             builder = WebsiteBuilder(url_obj.url_tag)
+            controller = Controller(**builder.controller_kwargs())
 
-        logs_path = os.path.join(builder.out_path, "logs/conversation")
-        os.makedirs(logs_path, exist_ok=True)
-
-        shared_profile = BrowserProfile(
-            headless=False,
-            user_data_dir=None,               # use dedicated tmp user_data_dir per session
-            storage_state='browser-auth-data.json',   # load/save cookies to/from json file
-            keep_alive=False
-        )
-
+        # Make browser-use controller
         controller = Controller(**builder.controller_kwargs())
 
         if builder.name == "github":
@@ -61,23 +55,28 @@ async def crawl_user(
             def get_github_code(repo_url: str) -> ActionResult:
                 uithub_url = repo_url.replace("github.com", "uithub.com")
                 uithub_url = f"{uithub_url}?accept=text%2Fplain&maxTokens=10000"
-
                 response = requests.get(uithub_url)
-                # with open("ciaoooo.txt", "a") as f:
-                #     f.write(repo_url)
-                #     f.write("\n")
-                #     f.write("😅😅😅😅😅😅😅😅😅😅😅😅😅")
-                #     f.write(response.text)
-                #     f.write("\n")
-                #     f.write("😅😅😅😅😅😅😅😅😅😅😅😅😅")
-                #     f.write("\n")
                 return ActionResult(extracted_content=response.text, include_in_memory=False)
 
+        # Make browser-use profile to load auth data
+        shared_profile = BrowserProfile(
+            headless=False,
+            user_data_dir=None,               # use dedicated tmp user_data_dir per session
+            storage_state='browser-auth-data.json',   # load/save cookies to/from json file
+            keep_alive=False
+        )
+
+        # Create browser window
         window = BrowserSession(
             browser_profile=shared_profile,
             allowed_domains=builder.allowed_domains(),
         )
         await window.start()
+
+        # Start browser-use agent
+        logs_path = os.path.join(builder.out_path, "logs/conversation")
+        os.makedirs(logs_path, exist_ok=True)
+
         agent = Agent(
             task=builder.prompt(user.name, url_obj.url, url_obj.url_tag),
             llm=ChatGoogle(
@@ -91,6 +90,7 @@ async def crawl_user(
             save_conversation_path=logs_path
         )
 
+        # Add agent coroutine to later gather
         async def run_agent_w_builder(agent, max_steps, builder):
             history = await agent.run(max_steps=max_steps)
             return history, builder
@@ -99,7 +99,7 @@ async def crawl_user(
             run_agent_w_builder(agent, builder.max_steps(), builder)
         )
 
-    # await asyncio.gather(*running_agents)
+    # Wait for agents to finish and save results to file
     for coro_agent in asyncio.as_completed(running_agents):
         history, builder = await coro_agent
 
@@ -121,11 +121,11 @@ async def main():
     user= UserInput(
         name="Diego Giorgini",
         urls=[
-            Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=None),
-            Url(url="https://www.github.com/diegobit", url_tag=None),
-            Url(url="https://www.x.com/diegobit10", url_tag=None),
-            Url(url="https://www.huggingface.co/diegobit", url_tag=None),
-            Url(url="https://diegobit.com", url_tag="personal website"),
+            # Url(url="https://www.linkedin.com/in/diego-giorgini", url_tag=""),
+            Url(url="https://www.github.com/diegobit/aranet4-mcp-server", url_tag=""),
+        #     Url(url="https://www.x.com/diegobit10", url_tag=""),
+        #     Url(url="https://www.huggingface.co/diegobit", url_tag=""),
+        #     Url(url="https://diegobit.com", url_tag="personal website"),
         ]
     )
 
