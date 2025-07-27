@@ -17,11 +17,11 @@ class XResult(BaseModel):
     profile_summary: str
 
 class XBuilder(BaseBuilder):
-    def __init__(self, url_tag: str = "x", name: str = "x") -> None:
-        super().__init__(url_tag)
+    def __init__(self, url_desc: str = "x", name: str = "x") -> None:
+        super().__init__(url_desc)
 
     @staticmethod
-    def prompt(fullname, url, url_tag) -> str:
+    def prompt(fullname, url, url_desc) -> str:
         return inspect.cleandoc(f"""
             Get personal information from {fullname} by reading the profile and some "tweets"/posts from x.com. The profile URL is {url}.
 

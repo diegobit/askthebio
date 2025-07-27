@@ -44,12 +44,12 @@ class CodeRepoResult(BaseModel):
     profile_summary: str
 
 class CodeRepoBuilder(BaseBuilder):
-    def __init__(self, url_tag: str = "code_repo", name: str = "code_repo") -> None:
-        super().__init__(url_tag)
+    def __init__(self, url_desc: str = "code_repo", name: str = "code_repo") -> None:
+        super().__init__(url_desc)
         self.name = name
 
     @staticmethod
-    def prompt(fullname, url, url_tag) -> str:
+    def prompt(fullname, url, url_desc) -> str:
         return inspect.cleandoc(f"""
             Get information about what and how the code of {fullname} by crawling his/her repositories. The URL to start is {url}.
 

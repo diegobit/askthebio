@@ -5,8 +5,8 @@ from typing import Type
 class BaseBuilder():
     name = "base"
 
-    def __init__(self, url_tag: str = "", out_path: str = "out") -> None:
-        self.url_tag = url_tag
+    def __init__(self, url_desc: str = "", out_path: str = "out") -> None:
+        self.url_tag = url_desc
         self.out_path = os.path.join(out_path, self.name)
 
     @staticmethod
