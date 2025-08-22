@@ -1,13 +1,13 @@
 import asyncio
-from browser_use import BrowserSession   # no Agent yet – we’ll drive it ourselves
+from browser_use import BrowserSession
 
 async def manual_logins():
     session = BrowserSession(
-        headless=False,                      # visible window so *you* can click
+        headless=False,
         # user_data_dir="~/.config/browseruse/profiles/my_profile",  # persists every cookie
         user_data_dir=None,
         storage_state="browser-use-auth-data.json",
-        keep_alive=True                      # session stays up until you close it
+        keep_alive=True
     )
 
     await session.start()
