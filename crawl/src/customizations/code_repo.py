@@ -25,6 +25,7 @@ class CodeRepo(BaseCustomization):
             About repos:
             - Gather detailed information about 5/10 repos among the pinned ones, the most popular and the most recently updated repos of {fullname} (into repositories_detailed object): Get the overview from the README.md; if unavailable, or you need more information, use `get_github_code` function to get in a single step a the first lines of each file in the repo.
             - For all other repos, Only gather basic information (repositories_basic object).
+            - Ignore private repositories, keep public ones.
 
             Be thorough, truthful and factual.
         """)
