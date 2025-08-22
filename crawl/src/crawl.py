@@ -8,8 +8,8 @@ from datetime import datetime
 from browser_use import Agent, BrowserSession, BrowserProfile
 from browser_use.llm import ChatGoogle
 
-from user_input import Link, UserInput, Text, Doc
-from customizations import CodeRepo, GitHub, Linkedin, Website, X, HuggingFace
+from src.models import Link, UserInput, Text, Doc
+from src.customizations import CodeRepo, GitHub, Linkedin, Website, X, HuggingFace
 
 
 async def crawl_user(
@@ -136,28 +136,3 @@ async def crawl_user(
     with open(os.path.join(out_path, "merged_results.json"), "w") as f:
         json.dump(final_result, f, indent=2)
 
-
-
-async def main():
-    user = UserInput(
-        name="Diego Giorgini",
-        texts=[
-        ],
-        docs=[],
-        links=[
-            Link(url="https://www.linkedin.com/in/diego-giorgini", description=""),
-            Link(url="https://www.github.com/diegobit/aranet4-mcp-server", description=""),
-            Link(url="https://www.x.com/diegobit10", description=""),
-            Link(url="https://www.huggingface.co/diegobit", description=""),
-            Link(url="https://diegobit.com", description="personal website"),
-        ]
-    )
-
-    await crawl_user(user, out_path="out", verbose=True)
-
-
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    load_dotenv()
-
-    asyncio.run(main())
