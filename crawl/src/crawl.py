@@ -4,13 +4,28 @@ import json
 from urllib.parse import urlparse
 from types import CoroutineType
 from datetime import datetime
+import inspect
+import  unicodedata
+import re
 
-from browser_use import Agent, BrowserSession, BrowserProfile
+from browser_use import Agent, Browser, BrowserProfile
 from browser_use.llm import ChatGoogle
 
 from src.models import Link, UserInput, Text, Doc
 from src.customizations import CodeRepo, GitHub, Linkedin, Website, X, HuggingFace
 
+def slugify(text: str) -> str:
+    # Normalize (NFKC keeps characters in canonical form)
+    text = unicodedata.normalize("NFKC", text)
+    # Lowercase (works for many scripts, e.g. Greek, Cyrillic, Latin)
+    text = text.lower()
+    # Replace any character that's not a letter/number with a hyphen
+    text = re.sub(r"[^\w]+", "-", text, flags=re.UNICODE)
+    # Strip leading/trailing hyphens
+    text = text.strip("-")
+    # Collapse multiple hyphens
+    text = re.sub(r"-{2,}", "-", text)
+    return text
 
 async def crawl_user(
     user: UserInput,
@@ -18,6 +33,7 @@ async def crawl_user(
     verbose: bool = False
 ):
     final_result = {}
+    final_md = f"# {user.name}"
 
     # ---------------------------------
     # TEXTS
@@ -103,7 +119,7 @@ async def crawl_user(
             save_conversation_path=logs_path
         )
 
-        # Add agent coroutine to later gather
+        # Add agent coroutine to gather async coroutines
         async def run_agent_w_builder(agent, max_steps, builder):
             history = await agent.run(max_steps=max_steps)
             return history, builder
@@ -125,6 +141,12 @@ async def crawl_user(
             parsed_j = parsed.model_dump_json(indent=2)
             parsed_j["knowledge_cutoff_date"] = datetime.isoformat(datetime.now()),
             final_result[agent_builder.name] = parsed_j
+            final_md += inspect.cleandoc(f"""
+                ## {agent_builder.name}
+                ```json
+                {{{agent_builder.name}: {parsed_j}}}
+                ```
+            """)
             if verbose:
                 print(parsed_j)
             with open(os.path.join(agent_builder.out_path, "extraction.json"), "w", encoding="utf-8") as f:
@@ -133,6 +155,9 @@ async def crawl_user(
             print(f'No result from {agent_builder.link.url}')
             final_result[agent_builder.name] = {}
 
-    with open(os.path.join(out_path, "merged_results.json"), "w") as f:
+    slug_name = slugify(user.name)
+    with open(os.path.join(out_path, f"{slug_name}.json"), "w") as f:
+        json.dump(final_result, f, indent=2)
+    with open(os.path.join(out_path, f"{slug_name}.md"), "w") as f:
         json.dump(final_result, f, indent=2)
 
