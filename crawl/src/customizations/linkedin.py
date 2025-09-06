@@ -21,7 +21,8 @@ class Linkedin(BaseCustomization):
         return inspect.cleandoc(f"""
             Get all information from {fullname} from his/her LinkedIn profile. Start from URL {self.link.url}.
 
-            Extract his/her profession, experiences, education, certifications, etc. Check out the most recent 10 updates, including posts, reposts, etc
+            Extract his/her profession, experiences, education, certifications, etc. 
+            Also check out the most recent 10 updates, including posts, reposts, etc
               - if you see a post by {fullname}, download it.
               - if you see a repost, only make a summary.
 
