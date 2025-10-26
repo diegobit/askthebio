@@ -373,16 +373,6 @@ const PersonalAIChat = () => {
             />
           </form>
           
-          {/* Loading State */}
-          {isLoading && (
-            <div className="flex items-center justify-center space-x-2 text-ink-light/60 mt-6">
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-              <span className="ml-3 text-sm font-serif">Thinking...</span>
-            </div>
-          )}
-
           {/* Error State */}
           {error && (
             <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/40 text-destructive text-left font-serif">
@@ -400,6 +390,17 @@ const PersonalAIChat = () => {
               </div>
             </div>
           )}
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex items-center justify-center space-x-2 text-ink-light/60 mt-6">
+              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+              {/* <span className="ml-3 text-sm font-sans">Thinking...</span> */}
+            </div>
+          )}
+
         </div>
       </div>
     </main>
