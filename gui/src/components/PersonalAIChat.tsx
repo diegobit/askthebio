@@ -343,18 +343,17 @@ const PersonalAIChat = () => {
       {!shouldUseImage && <div className="pointer-events-none fixed inset-0 bg-gradient-overlay" />}
       
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-16 pb-20 transition-all duration-700 ease-out">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-start px-6 pt-16 pb-20 transition-all duration-700 ease-out">
         <div
           className={cn(
             "w-full max-w-2xl text-center space-y-8 transition-all duration-700 ease-out",
-            hasResponse ? "mt-0 space-y-10" : "mt-[18vh]"
+            hasResponse ? "mt-0 space-y-10" : "mt-[22vh]"
           )}
         >
           {/* Typography Header */}
           <div
             className={cn(
-              "space-y-2 transition-all duration-700 ease-out",
-              hasResponse && "sticky top-6 z-20 px-8 py-6"
+              "space-y-2 rounded-3xl px-8 py-6 transition-all duration-700 ease-out sticky top-6 z-20 backdrop-blur-md"
             )}
           >
             <h1 className="text-6xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
@@ -374,7 +373,7 @@ const PersonalAIChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={`Ask me anything about ${appConfig.personaFirstName}.`}
-              className="w-full h-16 text-base md:text-base bg-paper/90 backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
+              className="w-full h-16 text-base md:text-base bg-paper backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -394,7 +393,7 @@ const PersonalAIChat = () => {
 
           {/* Response */}
           {responseText && !error && (
-            <div className="p-6 rounded-3xl bg-paper/90 backdrop-blur-sm border border-border text-left shadow-paper">
+            <div className="p-6 rounded-3xl bg-paper backdrop-blur-sm border border-border text-left shadow-paper">
               <div className="space-y-4 text-base leading-relaxed text-ink font-sans">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents} skipHtml>
                   {responseText}
