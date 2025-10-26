@@ -9,6 +9,7 @@ declare namespace Cloudflare {
 		GEMINI_MODEL: "gemini-2.5-flash";
 		PERSON_NAME: "Diego Giorgini";
 		CONTEXT_KEY: "diego-giorgini-y4tfirbg/latest/extraction.md";
+		MAX_OUTPUT_TOKENS?: string;
 		R2: R2Bucket;
 	}
 }
