@@ -356,13 +356,13 @@ const PersonalAIChat = () => {
               "space-y-2 rounded-3xl px-8 py-6 transition-all duration-700 ease-out sticky top-6 z-20 backdrop-blur-md"
             )}
           >
-            <h1 className="text-6xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
+            <h1 className="text-5xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
               Ask The Bio
             </h1>
-            <p className="text-3xl md:text-4xl font-cursive italic text-ink-light/60 font-light">
+            <p className="text-2xl md:text-4xl font-cursive italic text-ink-light/60 font-light">
               of
             </p>
-            <h2 className="text-5xl md:text-6xl font-cursive font-medium text-ink tracking-wide">
+            <h2 className="text-4xl md:text-6xl font-cursive font-medium text-ink tracking-wide">
               {appConfig.personaName}
             </h2>
           </div>
