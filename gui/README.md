@@ -1,73 +1,61 @@
-# Welcome to your Lovable project
+# AskTheBio GUI
 
-## Project info
+Modern React + Vite frontend for the AskTheBio experience. This project powers the public-facing interface while other services in the repository handle agents, crawling, and worker functionality.
 
-**URL**: https://lovable.dev/projects/5be5a9df-598c-434f-9e4c-0948373b5f22
+## Tech Stack
+- Vite + React 18 (TypeScript)
+- Tailwind CSS with shadcn/ui components
+- React Router, TanStack Query, Zod, and supporting UI libraries
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/5be5a9df-598c-434f-9e4c-0948373b5f22) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+## Local Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# install dependencies (prefers pnpm)
+pnpm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# start the dev server on http://localhost:5173
+pnpm dev
 
-# Step 3: Install the necessary dependencies.
-npm i
+# run a production build into dist/
+pnpm build
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# optional preview of the last build
+pnpm preview
 ```
 
-**Edit a file directly in GitHub**
+Use Node 18+ (22.x is fine) and ensure your editor respects the repo’s ESLint and Prettier configuration.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
+- `src/main.tsx` bootstraps React Router and global providers.
+- `src/App.tsx` hosts shared layout and top-level routes.
+- `src/pages/` contains higher-level views; `src/components/` stores reusable primitives.
+- Utilities and hooks live under `src/lib/` and `src/hooks/`.
+- Static assets belong in `src/assets/` for bundling or `public/` for raw serving.
 
-**Use GitHub Codespaces**
+## Deployment on Cloudflare Pages
+Cloudflare Pages is the recommended hosting target.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. **Connect GitHub**
+   - In the Cloudflare dashboard go to **Pages → Create application → Connect to Git** and choose this repository (or specify the `gui/` folder if the repo hosts additional services).
+2. **Build Configuration**
+   - Framework preset: `None`.
+   - Root directory: `gui`.
+   - Build command: `pnpm build`.
+   - Build output directory: `dist`.
+   Cloudflare detects `pnpm-lock.yaml` and installs dependencies with pnpm automatically.
+3. **Environment Variables (optional)**
+   - Add keys under **Environment variables (advanced)** for both Production and Preview environments if the UI requires runtime configuration.
+4. **Deploy & Preview**
+   - Trigger the initial deployment; Cloudflare will publish to a `*.pages.dev` URL.
+   - Enable preview deployments to build every pull request automatically.
+5. **Custom Domains**
+   - From the Pages dashboard, open **Custom domains**, enter your hostname, and follow the DNS prompts.
 
-## What technologies are used for this project?
+## Testing & Linting
+- `pnpm lint` runs ESLint across the TypeScript codebase.
+- Automated testing isn’t configured yet; if you add Vitest/RTL suites, place specs in `src/__tests__/`.
+- Document any manual verification steps when introducing new features.
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/5be5a9df-598c-434f-9e4c-0948373b5f22) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Contributing
+- Use concise, imperative commit messages (`Add onboarding hero`, `Refactor navbar spacing`).
+- Keep PRs focused and include context, screenshots, and verification notes.
+- When modifying shared primitives, check for Tailwind class reuse and adhere to existing patterns.
