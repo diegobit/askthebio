@@ -334,11 +334,11 @@ const PersonalAIChat = () => {
       {/* Background Surface */}
       {shouldUseImage && heroBackground && (
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="pointer-events-none fixed inset-0 bg-cover bg-center bg-no-repeat opacity-20"
           style={{ backgroundImage: `url(${heroBackground})` }}
         />
       )}
-      {!shouldUseImage && <div className="absolute inset-0 bg-gradient-overlay" />}
+      {!shouldUseImage && <div className="pointer-events-none fixed inset-0 bg-gradient-overlay" />}
       
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-8 pb-12">
