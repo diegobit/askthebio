@@ -308,7 +308,7 @@ const PersonalAIChat = () => {
             <h1 className="text-6xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
               Ask The Bio
             </h1>
-            <p className="text-3xl md:text-4xl font-cursive italic text-ink-light font-light">
+            <p className="text-3xl md:text-4xl font-cursive italic text-ink-light/60 font-light">
               of
             </p>
             <h2 className="text-5xl md:text-6xl font-cursive font-medium text-ink tracking-wide">
