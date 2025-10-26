@@ -56,6 +56,8 @@ const PersonalAIChat = () => {
     const controller = new AbortController();
     setActiveController(controller);
 
+    let reader: ReadableStreamDefaultReader<Uint8Array> | null = null;
+
     try {
       const response = await fetch(chatEndpoint, {
         method: "POST",
@@ -76,21 +78,42 @@ const PersonalAIChat = () => {
         throw new Error("Response body is missing.");
       }
 
-      const reader = response.body.getReader();
+      reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let buffer = "";
-      let pendingChunk = "";
+      let buffered = "";
+      let pendingPayload = "";
+      let liveText = "";
+      let shouldTerminate = false;
 
-      const appendToResponse = (chunk: string) => {
-        if (!chunk) return;
-        setResponseText((prev) => {
-          if (!prev) return chunk;
-          if (chunk === prev) return prev;
-          if (chunk.startsWith(prev)) {
-            return chunk;
+      const emitText = (text: string) => {
+        if (!text) return;
+
+        let nextText = text;
+
+        if (!liveText) {
+          nextText = text;
+        } else if (text.startsWith(liveText)) {
+          nextText = text;
+        } else if (liveText.includes(text)) {
+          nextText = liveText;
+        } else {
+          let overlap = 0;
+          const maxOverlap = Math.min(liveText.length, text.length);
+          for (let i = maxOverlap; i > 0; i--) {
+            if (text.startsWith(liveText.slice(-i))) {
+              overlap = i;
+              break;
+            }
           }
-          return prev + chunk;
-        });
+          nextText = `${liveText}${text.slice(overlap)}`;
+        }
+
+        if (nextText === liveText) {
+          return;
+        }
+
+        liveText = nextText;
+        setResponseText(nextText);
       };
 
       const extractTextFromPayload = (payload: unknown): string => {
@@ -131,68 +154,127 @@ const PersonalAIChat = () => {
         return "";
       };
 
-      const processLine = (rawLine: string) => {
-        const trimmed = rawLine.trim();
-        if (!trimmed) return;
-
-        if (trimmed === "[DONE]") {
-          pendingChunk = "";
-          return;
+      const parseAndEmit = (rawPayload: string): boolean => {
+        let payload = rawPayload;
+        if (pendingPayload) {
+          payload = pendingPayload + payload;
+          pendingPayload = "";
         }
 
-        const withoutPrefix = trimmed.startsWith("data:") ? trimmed.slice(5).trim() : trimmed;
-        if (!withoutPrefix) return;
-
-        pendingChunk = pendingChunk ? `${pendingChunk}${withoutPrefix}` : withoutPrefix;
-
         try {
-          const parsed = JSON.parse(pendingChunk);
+          const parsed = JSON.parse(payload);
           const chunk = extractTextFromPayload(parsed);
-          appendToResponse(chunk);
-          pendingChunk = "";
+          emitText(chunk);
+          return true;
         } catch (err) {
-          // Ignore parsing errors for partial chunks; they will resolve as more data arrives.
-          if (!(err instanceof SyntaxError)) {
-            console.error("Failed to parse chunk:", err);
-            pendingChunk = "";
+          if (err instanceof SyntaxError) {
+            pendingPayload = payload;
+            return false;
           }
+          console.error("Failed to parse chunk:", err);
+          pendingPayload = "";
+          return false;
         }
       };
 
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        if (!value) continue;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split(/\r?\n/);
-        buffer = lines.pop() ?? "";
+      const processEvent = (event: string): boolean => {
+        const lines = event.split(/\r?\n/);
+        let dataBuffer = "";
+        let sawDone = false;
 
         for (const line of lines) {
-          processLine(line);
+          if (!line) continue;
+          const trimmedLine = line.trim();
+          if (!trimmedLine || trimmedLine.startsWith(":")) continue;
+          if (!trimmedLine.startsWith("data:")) continue;
+
+          const value = line.slice(line.indexOf("data:") + 5);
+          if (!value) continue;
+          const trimmedValue = value.trim();
+          if (!trimmedValue) continue;
+          if (trimmedValue === "[DONE]") {
+            sawDone = true;
+            continue;
+          }
+          dataBuffer += `${value.replace(/^\s/, "")}\n`;
+        }
+
+        const payload = dataBuffer.trim();
+        if (payload) {
+          parseAndEmit(payload);
+        }
+
+        if (sawDone) {
+          shouldTerminate = true;
+          return true;
+        }
+
+        return false;
+      };
+
+      while (!shouldTerminate && reader) {
+        const { value, done } = await reader.read();
+        if (done) {
+          break;
+        }
+
+        if (value) {
+          buffered += decoder.decode(value, { stream: true });
+        }
+
+        const events = buffered.split(/\r?\n\r?\n/);
+        buffered = events.pop() ?? "";
+
+        for (const event of events) {
+          if (processEvent(event)) {
+            break;
+          }
         }
       }
 
-      if (buffer) {
-        processLine(buffer);
+      if (reader) {
+        buffered += decoder.decode();
       }
 
-      if (pendingChunk) {
-        try {
-          const parsed = JSON.parse(pendingChunk);
-          const chunk = extractTextFromPayload(parsed);
-          appendToResponse(chunk);
-        } catch {
-          // Swallow parsing errors on trailing partial data.
+      if (!shouldTerminate && buffered) {
+        const trailingEvents = buffered.split(/\r?\n\r?\n/);
+        buffered = trailingEvents.pop() ?? "";
+
+        for (const event of trailingEvents) {
+          if (processEvent(event)) {
+            break;
+          }
         }
+      }
+
+      if (!shouldTerminate) {
+        const leftover = (pendingPayload || buffered).trim();
+        if (leftover) {
+          parseAndEmit(leftover);
+        }
+      }
+
+      if (shouldTerminate && reader) {
+        await reader.cancel().catch(() => undefined);
       }
     } catch (err) {
+      if (reader) {
+        await reader.cancel().catch(() => undefined);
+      }
       if ((err as DOMException).name === "AbortError") {
         return;
       }
       console.error(err);
       setError(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
+      if (reader) {
+        try {
+          reader.releaseLock();
+        } catch {
+          // Ignore release errors.
+        }
+        reader = null;
+      }
       setIsLoading(false);
       setActiveController(null);
     }
