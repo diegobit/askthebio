@@ -341,8 +341,8 @@ const PersonalAIChat = () => {
       {!shouldUseImage && <div className="absolute inset-0 bg-gradient-overlay" />}
       
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-2xl text-center space-y-8">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-8 pb-12">
+        <div className="w-full max-w-2xl text-center space-y-8 pb-8">
           {/* Typography Header */}
           <div className="space-y-2">
             <h1 className="text-6xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
