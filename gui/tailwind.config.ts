@@ -1,5 +1,20 @@
 import type { Config } from "tailwindcss";
 
+const withOpacity =
+	(variable: string, fallback?: string) =>
+	({ opacityValue }: { opacityValue?: string }) => {
+		if (opacityValue !== undefined) {
+			return `hsl(var(${variable}) / ${opacityValue})`;
+		}
+
+		if (fallback) {
+			const fallbackValue = fallback.startsWith('--') ? `var(${fallback})` : fallback;
+			return `hsl(var(${variable}) / ${fallbackValue})`;
+		}
+
+		return `hsl(var(${variable}))`;
+	};
+
 export default {
 	darkMode: ["class"],
 	content: [
@@ -30,8 +45,8 @@ export default {
 					glow: 'hsl(var(--primary-glow))'
 				},
 				ink: {
-					DEFAULT: 'hsl(var(--ink))',
-					light: 'hsl(var(--ink-light))'
+					DEFAULT: withOpacity('--ink', '--ink-opacity'),
+					light: withOpacity('--ink-light', '--ink-light-opacity')
 				},
 				paper: 'hsl(var(--paper))',
 				secondary: {

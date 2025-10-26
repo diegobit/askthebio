@@ -1,6 +1,46 @@
 import { useEffect, useRef, useState } from "react";
+import type { Components } from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Input } from "@/components/ui/input";
 import { appConfig } from "@/lib/app-config";
+
+const markdownComponents: Components = {
+  p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="mb-4 list-disc space-y-2 pl-6">{children}</ul>,
+  ol: ({ children }) => <ol className="mb-4 list-decimal space-y-2 pl-6">{children}</ol>,
+  li: ({ children }) => <li className="text-base leading-relaxed text-ink">{children}</li>,
+  code: ({ inline, children }) =>
+    inline ? (
+      <code className="rounded bg-ink/10 px-1.5 py-0.5 text-sm font-mono text-ink">
+        {children}
+      </code>
+    ) : (
+      <code className="text-sm font-mono text-ink">{children}</code>
+    ),
+  pre: ({ children }) => (
+    <pre className="mb-4 overflow-x-auto rounded-2xl bg-ink/5 p-4 text-sm font-mono text-ink">
+      {children}
+    </pre>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="mb-4 border-l-4 border-ink/40 pl-4 italic text-ink/80">
+      {children}
+    </blockquote>
+  ),
+  a: ({ children, ...props }) => (
+    <a
+      className="text-primary underline underline-offset-2"
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+    >
+      {children}
+    </a>
+  ),
+  strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
+  em: ({ children }) => <em className="italic text-ink">{children}</em>,
+};
 
 const PersonalAIChat = () => {
   const [message, setMessage] = useState("");
@@ -353,9 +393,11 @@ const PersonalAIChat = () => {
           {/* Response */}
           {responseText && !error && (
             <div className="p-6 rounded-3xl bg-paper/90 backdrop-blur-sm border border-border text-left shadow-paper">
-              <p className="whitespace-pre-wrap text-base leading-relaxed text-ink font-sans">
-                {responseText}
-              </p>
+              <div className="space-y-4 text-base leading-relaxed text-ink font-sans">
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents} skipHtml>
+                  {responseText}
+                </ReactMarkdown>
+              </div>
             </div>
           )}
         </div>
