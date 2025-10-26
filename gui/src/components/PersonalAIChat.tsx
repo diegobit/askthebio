@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { appConfig } from "@/lib/app-config";
 
@@ -8,7 +8,7 @@ const PersonalAIChat = () => {
   const [heroBackground, setHeroBackground] = useState<string | null>(null);
   const [responseText, setResponseText] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [activeController, setActiveController] = useState<AbortController | null>(null);
+  const controllerRef = useRef<AbortController | null>(null);
 
   const backgroundMode = (import.meta.env.VITE_BACKGROUND_MODE ?? "gradient") as string;
   const shouldUseImage = backgroundMode.toLowerCase() === "image";
@@ -40,6 +40,12 @@ const PersonalAIChat = () => {
     };
   }, [shouldUseImage]);
 
+  useEffect(() => {
+    return () => {
+      controllerRef.current?.abort();
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const prompt = message.trim();
@@ -50,11 +56,11 @@ const PersonalAIChat = () => {
     setResponseText("");
     setMessage("");
 
-    if (activeController) {
-      activeController.abort();
+    if (controllerRef.current) {
+      controllerRef.current.abort();
     }
     const controller = new AbortController();
-    setActiveController(controller);
+    controllerRef.current = controller;
 
     let reader: ReadableStreamDefaultReader<Uint8Array> | null = null;
 
@@ -63,9 +69,11 @@ const PersonalAIChat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "text/event-stream",
         },
         body: JSON.stringify({ prompt }),
         signal: controller.signal,
+        cache: "no-store",
       });
 
       if (!response.ok) {
@@ -155,53 +163,55 @@ const PersonalAIChat = () => {
       };
 
       const parseAndEmit = (rawPayload: string): boolean => {
-        let payload = rawPayload;
-        if (pendingPayload) {
-          payload = pendingPayload + payload;
-          pendingPayload = "";
-        }
+        let payload = pendingPayload ? pendingPayload + rawPayload : rawPayload;
+        pendingPayload = "";
 
         try {
           const parsed = JSON.parse(payload);
-          const chunk = extractTextFromPayload(parsed);
-          emitText(chunk);
+          emitText(extractTextFromPayload(parsed));
           return true;
-        } catch (err) {
-          if (err instanceof SyntaxError) {
-            pendingPayload = payload;
-            return false;
-          }
-          console.error("Failed to parse chunk:", err);
-          pendingPayload = "";
-          return false;
+        } catch (_) {
+          // fall through to incremental parsing
         }
+
+        if (payload.includes("\n")) {
+          let parsedAny = false;
+          for (const line of payload.split(/\r?\n/)) {
+            const trimmed = line.trim();
+            if (!trimmed) continue;
+            try {
+              const parsed = JSON.parse(trimmed);
+              emitText(extractTextFromPayload(parsed));
+              parsedAny = true;
+            } catch {
+              pendingPayload += trimmed;
+            }
+          }
+          return parsedAny;
+        }
+
+        pendingPayload = payload;
+        return false;
       };
 
       const processEvent = (event: string): boolean => {
-        const lines = event.split(/\r?\n/);
-        let dataBuffer = "";
         let sawDone = false;
 
-        for (const line of lines) {
-          if (!line) continue;
-          const trimmedLine = line.trim();
-          if (!trimmedLine || trimmedLine.startsWith(":")) continue;
-          if (!trimmedLine.startsWith("data:")) continue;
+        for (const rawLine of event.split(/\r?\n/)) {
+          if (!rawLine) continue;
+          const line = rawLine.trim();
+          if (!line || line.startsWith(":")) continue;
+          if (!line.startsWith("data:")) continue;
 
-          const value = line.slice(line.indexOf("data:") + 5);
+          const value = rawLine.slice(rawLine.indexOf("data:") + 5).trim();
           if (!value) continue;
-          const trimmedValue = value.trim();
-          if (!trimmedValue) continue;
-          if (trimmedValue === "[DONE]") {
+
+          if (value === "[DONE]") {
             sawDone = true;
             continue;
           }
-          dataBuffer += `${value.replace(/^\s/, "")}\n`;
-        }
 
-        const payload = dataBuffer.trim();
-        if (payload) {
-          parseAndEmit(payload);
+          parseAndEmit(value);
         }
 
         if (sawDone) {
@@ -275,11 +285,10 @@ const PersonalAIChat = () => {
         }
         reader = null;
       }
+      controllerRef.current = null;
       setIsLoading(false);
-      setActiveController(null);
     }
   };
-
   return (
     <main className="min-h-screen relative overflow-hidden bg-paper">
       {/* Background Surface */}
