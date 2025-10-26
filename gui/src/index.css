@@ -45,8 +45,8 @@ All colors MUST be HSL.
     /* --gradient-overlay: linear-gradient(135deg, hsl(44 30% 98%), hsl(44 30% 80%), hsl(44 15% 95%)); */
     --gradient-overlay: linear-gradient(180deg, hsl(198 80% 90%), hsl(66deg 26% 95%), hsl(29deg 78% 90%));
     
-    --shadow-ink: 0 5px 20px hsl(44 20% 75%);
-    --shadow-paper: 0 4px 20px hsl(44 15% 60% / 0.15);
+    --shadow-ink: 0 5px 20px hsl(44 0% 75%);
+    --shadow-paper: 0 4px 20px hsl(44 0% 60% / 0.15);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
