@@ -82,6 +82,7 @@ export default {
 			},
 			boxShadow: {
 				'ink': 'var(--shadow-ink)',
+				'ink-lift': '0 18px 45px hsl(var(--ink) / 0.25)',
 				'paper': 'var(--shadow-paper)',
 			},
 			fontFamily: {
