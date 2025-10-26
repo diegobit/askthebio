@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Input } from "@/components/ui/input";
 import { appConfig } from "@/lib/app-config";
+import { cn } from "@/lib/utils";
 
 const markdownComponents: Components = {
   p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
@@ -49,6 +50,7 @@ const PersonalAIChat = () => {
   const [responseText, setResponseText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
+  const hasResponse = Boolean(isLoading) || Boolean(responseText);
 
   const backgroundMode = (import.meta.env.VITE_BACKGROUND_MODE ?? "gradient") as string;
   const shouldUseImage = backgroundMode.toLowerCase() === "image";
@@ -341,10 +343,20 @@ const PersonalAIChat = () => {
       {!shouldUseImage && <div className="pointer-events-none fixed inset-0 bg-gradient-overlay" />}
       
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-8 pb-12">
-        <div className="w-full max-w-2xl text-center space-y-8 pb-8">
+      <div className="relative z-10 min-h-screen flex flex-col items-center px-6 pt-16 pb-20 transition-all duration-700 ease-out">
+        <div
+          className={cn(
+            "w-full max-w-2xl text-center space-y-8 transition-all duration-700 ease-out",
+            hasResponse ? "mt-0 space-y-10" : "mt-[18vh]"
+          )}
+        >
           {/* Typography Header */}
-          <div className="space-y-2">
+          <div
+            className={cn(
+              "space-y-2 transition-all duration-700 ease-out",
+              hasResponse && "sticky top-6 z-20 px-8 py-6"
+            )}
+          >
             <h1 className="text-6xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
               Ask The Bio
             </h1>
@@ -362,7 +374,7 @@ const PersonalAIChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={`Ask me anything about ${appConfig.personaFirstName}.`}
-              className="w-full h-16 text-base md:text-base bg-paper backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
+              className="w-full h-16 text-base md:text-base bg-paper/90 backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -397,7 +409,6 @@ const PersonalAIChat = () => {
               <div className="w-2 h-2 bg-ink rounded-full animate-pulse" />
               <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
               <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-              {/* <span className="ml-3 text-sm font-sans">Thinking...</span> */}
             </div>
           )}
 
