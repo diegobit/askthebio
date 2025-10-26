@@ -7,7 +7,6 @@ binding = "R2"
 bucket_name = "askthebio-data"
 
 [vars]
-# Model to use for Gemini streaming
 GEMINI_MODEL = "gemini-2.5-flash"
 PERSON_NAME = "Diego Giorgini"
 CONTEXT_KEY = "diego-giorgini-y4tfirbg/latest/extraction.md"
