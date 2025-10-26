@@ -362,7 +362,7 @@ const PersonalAIChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={`Ask me anything about ${appConfig.personaFirstName}.`}
-              className="w-full h-16 text-base md:text-base bg-paper/90 backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
+              className="w-full h-16 text-base md:text-base bg-paper backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
