@@ -22,9 +22,9 @@ export default {
       `You have been given information about ${personName}, some of which are extracted from personal websites or socials. You never explicitly say you have been provided context information.`,
       "",
       "Context:",
-      "```md",
+      "<context>",
       contextSnippet,
-      "```",
+      "</context>",
     ].join("\n");
 
     // --- Read user input ---
