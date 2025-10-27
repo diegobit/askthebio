@@ -356,13 +356,13 @@ const PersonalAIChat = () => {
               "space-y-2 rounded-3xl px-8 py-6 transition-all duration-700 ease-out sticky top-6 z-20 backdrop-blur-md"
             )}
           >
-            <h1 className="text-5xl md:text-7xl font-cursive font-semibold text-ink tracking-wide">
+            <h1 className="text-5xl md:text-7xl font-cursive font-semibold text-black/70 tracking-wide">
               Ask The Bio
             </h1>
-            <p className="text-2xl md:text-4xl font-cursive italic text-ink-light/60 font-light">
+            <p className="text-2xl md:text-4xl font-cursive italic text-black/50 font-light">
               of
             </p>
-            <h2 className="text-4xl md:text-6xl font-cursive font-medium text-ink tracking-wide">
+            <h2 className="text-4xl md:text-6xl font-cursive font-medium text-black/70 tracking-wide">
               {appConfig.personaName}
             </h2>
           </div>
@@ -373,7 +373,7 @@ const PersonalAIChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={`Ask me anything about ${appConfig.personaFirstName}.`}
-              className="w-full h-16 text-base md:text-base bg-paper backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
+              className="w-full h-16 text-base md:text-base bg-paper/80 backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -383,7 +383,7 @@ const PersonalAIChat = () => {
               }}
             />
           </form>
-          
+
           {/* Error State */}
           {error && (
             <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/40 text-destructive text-left font-serif">
@@ -393,8 +393,8 @@ const PersonalAIChat = () => {
 
           {/* Response */}
           {responseText && !error && (
-            <div className="p-6 rounded-3xl bg-paper backdrop-blur-sm border border-border text-left shadow-paper">
-              <div className="space-y-4 text-base leading-relaxed text-ink font-sans">
+            <div className="p-6 rounded-3xl bg-paper/80 backdrop-blur-sm border border-border text-left shadow-paper">
+              <div className="space-y-4 text-lg leading-relaxed text-ink font-sans">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents} skipHtml>
                   {responseText}
                 </ReactMarkdown>
