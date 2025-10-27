@@ -7,7 +7,7 @@ binding = "R2"
 bucket_name = "askthebio-data"
 
 [vars]
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-2.5-flash-lite"
 PERSON_NAME = "Diego Giorgini"
 CONTEXT_KEY = "diego-giorgini-y4tfirbg/latest/extraction.md"
 CONTEXT_SNIPPET_LENGTH = 500000
