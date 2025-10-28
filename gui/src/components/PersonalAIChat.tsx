@@ -332,7 +332,7 @@ const PersonalAIChat = () => {
     }
   };
   return (
-    <main className="min-h-screen relative overflow-hidden bg-paper">
+    <main className="min-h-screen relative overflow-hidden">
       {/* Background Surface */}
       {shouldUseImage && heroBackground && (
         <div
@@ -373,7 +373,7 @@ const PersonalAIChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={`Ask me anything about ${appConfig.personaFirstName}.`}
-              className="w-full h-16 text-base md:text-base bg-paper/80 dark:bg-gray-800/75 backdrop-blur-sm rounded-inf px-6 text-ink placeholder:text-ink-light/70 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
+              className="w-full h-16 text-base md:text-base bg-white/85 dark:bg-gray-800/75 backdrop-blur-sm rounded-inf px-6 text-black/80 placeholder:text-black/50 dark:placeholder:text-white/50 dark:text-white/80 shadow-ink transition-[transform,_box-shadow] duration-300 font-sans border-0 focus:border-0 focus-visible:border-none focus:shadow-ink-lift focus-visible:shadow-ink-lift focus:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 focus-visible:!ring-offset-transparent focus:!ring-0 focus:!ring-transparent focus:!ring-offset-0 focus:!ring-offset-transparent"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -393,8 +393,8 @@ const PersonalAIChat = () => {
 
           {/* Response */}
           {responseText && !error && (
-            <div className="p-6 rounded-3xl bg-paper/80 dark:bg-gray-800/75 backdrop-blur-sm border border-border text-left shadow-paper">
-              <div className="space-y-4 text-lg leading-relaxed text-ink dark:text-white/80 font-sans">
+            <div className="p-6 rounded-3xl bg-white/85 dark:bg-gray-800/75 backdrop-blur-sm border border-border text-left" >
+              <div className="space-y-4 text-lg leading-relaxed text-black/80 dark:text-white/80 font-sans">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents} skipHtml>
                   {responseText}
                 </ReactMarkdown>
