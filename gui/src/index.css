@@ -10,7 +10,7 @@ All colors MUST be HSL.
   :root {
     --foreground: 44 15% 25%;
     --background: 198 80% 90%;
-    --gradient-overlay: linear-gradient(180deg, hsl(208 80% 85%), hsl(66deg 26% 95%), hsl(35deg 88% 85%))
+    --gradient-overlay: linear-gradient(180deg, hsl(208 80% 85%), hsl(66deg 26% 95%), hsl(35deg 88% 85%));
 
     --border: 44 10% 90%;
     
