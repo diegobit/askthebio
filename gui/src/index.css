@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+All colors MUST be HSL. */
 
 @layer base {
   :root {
@@ -13,16 +12,18 @@ All colors MUST be HSL.
     --gradient-overlay: linear-gradient(180deg, hsl(208 80% 85%), hsl(66deg 26% 95%), hsl(35deg 88% 85%));
 
     --border: 44 10% 90%;
-    
+
     --shadow-ink: 0 3px 20px hsl(0 0% 0% / 0.15);
     .focus-visible\:shadow-ink-lift:focus-visible {
       --tw-shadow: 0 8px 30px hsl(0 0% 0% / 0.20);
       --tw-shadow-colored: 0 18px 45px var(--tw-shadow-color);
-      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+                  var(--tw-ring-shadow, 0 0 #0000),
+                  var(--tw-shadow);
     }
-    
+
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     --radius: 5rem;
   }
 
@@ -31,13 +32,15 @@ All colors MUST be HSL.
     --background: 24 52% 53%;
     --gradient-overlay: linear-gradient(180deg, hsl(24deg 52% 53%), hsl(231deg 30% 34%));
 
-    --border: 0 0% 100% /0.15;
+    --border: 0 0% 100% / 0.15;
 
     --shadow-ink: 0 3px 20px hsl(0 0% 0% / 0.25);
     .focus-visible\:shadow-ink-lift:focus-visible {
       --tw-shadow: 0 8px 30px hsl(0 0% 0% / 0.30);
       --tw-shadow-colored: 0 18px 45px var(--tw-shadow-color);
-      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+                  var(--tw-ring-shadow, 0 0 #0000),
+                  var(--tw-shadow);
     }
   }
 }
@@ -47,6 +50,7 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  /* Default (good browsers): paint gradient on html with fixed attachment */
   html {
     background-color: hsl(var(--background));
     background-image: var(--gradient-overlay);
@@ -56,13 +60,32 @@ All colors MUST be HSL.
     min-height: 100%;
   }
 
+  /* Make body transparent so the html gradient shows through */
   body {
     @apply text-foreground;
-    background-color: hsl(var(--background));
-    background-image: var(--gradient-overlay);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: transparent;
     min-height: 100%;
   }
+
+  /* iOS Safari fallback: avoid background-attachment: fixed on html,
+     and use a fixed pseudo-layer that paints to the viewport. */
+  @supports (-webkit-touch-callout: none) {
+    html {
+      background-attachment: scroll; /* disable the buggy path */
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      /* extend beyond the viewport to cover aggressive rubber-band */
+      inset: -50vh;
+      background-color: hsl(var(--background));
+      background-image: var(--gradient-overlay);
+      background-repeat: no-repeat;
+      background-size: cover;
+      pointer-events: none;
+      z-index: -1; /* sit behind all content */
+    }
+  }
 }
+
