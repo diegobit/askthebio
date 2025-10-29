@@ -78,7 +78,7 @@ All colors MUST be HSL. */
       content: "";
       position: fixed;
       /* extend beyond the viewport to cover aggressive rubber-band */
-      inset: -50vh;
+      inset: -50dvh;
       background-color: hsl(var(--background));
       background-image: var(--gradient-overlay);
       background-repeat: no-repeat;
