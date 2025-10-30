@@ -334,14 +334,18 @@ const PersonalAIChat = () => {
   return (
     <main className="min-h-screen relative overflow-hidden">
       {/* Background Surface */}
-      {shouldUseImage && heroBackground && (
-        <div
-          className="pointer-events-none fixed inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ backgroundImage: `url(${heroBackground})` }}
-        />
-      )}
-      {!shouldUseImage && <div className="pointer-events-none fixed inset-0 bg-gradient-overlay" />}
-      
+      <div className="pointer-events-none fixed inset-0 isolate">
+        <div className="absolute inset-0 bg-gradient-overlay" aria-hidden="true" />
+        {shouldUseImage && heroBackground && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+            style={{ backgroundImage: `url(${heroBackground})` }}
+            aria-hidden="true"
+          />
+        )}
+        <div className="vintage-grain-layer" aria-hidden="true" />
+      </div>
+
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-start px-6 pt-16 pb-20 transition-all duration-700 ease-out">
         <div
@@ -353,7 +357,7 @@ const PersonalAIChat = () => {
           {/* Typography Header */}
           <div
             className={cn(
-              "space-y-2 rounded-3xl px-8 py-6 transition-all duration-700 ease-out sticky top-6 z-20 backdrop-blur-md"
+              "space-y-2 rounded-3xl px-8 py-6 transition-all duration-700 ease-out sticky top-6 z-20"
             )}
           >
             <h1 className="text-5xl md:text-7xl font-cursive font-semibold text-black/70 dark:text-white/85 tracking-wide">

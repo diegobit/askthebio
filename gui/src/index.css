@@ -89,3 +89,29 @@ All colors MUST be HSL. */
   }
 }
 
+@layer components {
+  .vintage-grain-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      url("/noise.svg");
+    background-repeat: repeat;
+    background-size: 200px;
+    background-position: top left;
+    filter: saturate(90%) contrast(80%) brightness(100%);
+    mix-blend-mode: multiply;
+    opacity: 0.3;
+  }
+
+  .dark .vintage-grain-layer {
+    background:
+      url("/noise.svg");
+    background-repeat: repeat;
+    background-size: 200px;
+    background-position: ter, top left;
+    filter: saturate(90%) contrast(80%) brightness(100%);
+    mix-blend-mode: multiply;
+    opacity: 0.4;
+  }
+}
