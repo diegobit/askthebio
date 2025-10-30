@@ -8,7 +8,7 @@ All colors MUST be HSL. */
 @layer base {
   :root {
     --foreground: 44 15% 25%;
-    --background: 208 80% 85%;
+    --background: 206deg 59% 81%;
     --gradient-overlay: linear-gradient(180deg, hsl(208 80% 85%), hsl(66deg 26% 95%), hsl(35deg 88% 85%));
 
     --border: 44 10% 90%;
@@ -29,7 +29,7 @@ All colors MUST be HSL. */
 
   .dark {
     --foreground: 0 0% 100% / 0.8;
-    --background: 24 52% 53%;
+    --background: 23 46% 50%;
     --gradient-overlay: linear-gradient(180deg, hsl(24deg 52% 53%), hsl(231deg 30% 34%));
 
     --border: 0 0% 100% / 0.15;
