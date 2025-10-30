@@ -32,7 +32,7 @@ export function CornerInfoBadge() {
             "flex h-10 w-10 items-center justify-center rounded-full text-lg font-semibold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 dark:focus-visible:ring-white/40",
             isOpen
               ? "bg-black/80 text-white shadow-lg dark:bg-white/85 dark:text-black"
-              : "bg-transparent text-black/70 hover:bg-black/80 hover:text-white hover:shadow-lg dark:text-white/80 dark:hover:bg-white/80 dark:hover:text-black"
+              : "bg-transparent text-black/50 hover:bg-black/80 hover:text-white hover:shadow-lg dark:text-white/60 dark:hover:bg-white/80 dark:hover:text-black"
           )}
           onClick={() => setIsOpen((prev) => !prev)}
         >
