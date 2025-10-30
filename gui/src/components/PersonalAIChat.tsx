@@ -46,41 +46,13 @@ const markdownComponents: Components = {
 const PersonalAIChat = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [heroBackground, setHeroBackground] = useState<string | null>(null);
   const [responseText, setResponseText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
   const hasResponse = Boolean(isLoading) || Boolean(responseText);
 
-  const backgroundMode = (import.meta.env.VITE_BACKGROUND_MODE ?? "gradient") as string;
-  const shouldUseImage = backgroundMode.toLowerCase() === "image";
   const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8787").replace(/\/+$/, "");
   const chatEndpoint = `${apiBaseUrl}/chat`;
-
-  useEffect(() => {
-    if (!shouldUseImage) {
-      setHeroBackground(null);
-      return;
-    }
-
-    let isActive = true;
-
-    import("@/assets/bg.png")
-      .then((module) => {
-        if (isActive) {
-          setHeroBackground(module.default);
-        }
-      })
-      .catch(() => {
-        if (isActive) {
-          setHeroBackground(null);
-        }
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, [shouldUseImage]);
 
   useEffect(() => {
     return () => {
@@ -336,13 +308,6 @@ const PersonalAIChat = () => {
       {/* Background Surface */}
       <div className="pointer-events-none fixed inset-0 isolate">
         <div className="absolute inset-0 bg-gradient-overlay" aria-hidden="true" />
-        {shouldUseImage && heroBackground && (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-            style={{ backgroundImage: `url(${heroBackground})` }}
-            aria-hidden="true"
-          />
-        )}
         <div className="vintage-grain-layer" aria-hidden="true" />
       </div>
 
