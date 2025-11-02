@@ -360,6 +360,16 @@ const PersonalAIChat = () => {
             </div>
           )}
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex items-center justify-center space-x-2 text-black/60 dark:text-white/60 mt-6">
+              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+            </div>
+          )}
+
+
           {/* Response */}
           {responseText && !error && (
             <div className="p-6 rounded-3xl bg-white/85 dark:bg-gray-800/75 backdrop-blur-sm border border-border text-left" >
@@ -368,15 +378,6 @@ const PersonalAIChat = () => {
                   {responseText}
                 </ReactMarkdown>
               </div>
-            </div>
-          )}
-
-          {/* Loading State */}
-          {isLoading && (
-            <div className="flex items-center justify-center space-x-2 text-ink-light/60 mt-6">
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-              <div className="w-2 h-2 bg-ink rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
             </div>
           )}
 
