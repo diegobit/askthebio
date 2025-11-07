@@ -316,7 +316,7 @@ const PersonalAIChat = () => {
         <div
           className={cn(
             "w-full max-w-2xl text-center space-y-8 transition-all duration-700 ease-out",
-            hasResponse ? "mt-0 space-y-10" : "mt-[22vh]"
+            hasResponse ? "mt-0 space-y-4" : "mt-[22vh]"
           )}
         >
           {/* Typography Header */}
@@ -361,14 +361,21 @@ const PersonalAIChat = () => {
           )}
 
           {/* Loading State */}
-          {isLoading && (
-            <div className="flex items-center justify-center space-x-2 text-black/60 dark:text-white/60 mt-6">
-              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
-              <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+          {(isLoading || responseText) && (
+            <div className="h-6">
+              <div
+                className={cn(
+                  "flex h-full items-center justify-center space-x-2 text-black/60 dark:text-white/60 transition-opacity duration-200",
+                  isLoading ? "opacity-100" : "opacity-0 pointer-events-none"
+                )}
+                aria-hidden={!isLoading}
+              >
+                <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                <div className="w-2 h-2 bg-black/60 dark:bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+              </div>
             </div>
           )}
-
 
           {/* Response */}
           {responseText && !error && (
