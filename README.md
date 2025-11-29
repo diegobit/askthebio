@@ -1,17 +1,25 @@
-# Ask The Bio
+<!-- LOGO -->
+<h1>
+<p align="center">
+  <img src="https://askthebio.diegobit.com/favicon.ico" alt="Logo" width="128">
+  <br>Ask The Bio
+</h1>
+</p>
 
 This repo holds the code of a proof of concept for the AI Biographer!
 
-Go [here]() to read my accompanying article!
+Read the [accompanying article!]()
 
-## 1. crawl/
+[Try it out](https://askthebio.diegobit.com) asking stuff about me 🙈.
 
-Extract information with `crawl/` from your socials/personal blogs into a JSON file.
+### crawl/
 
-## 2. agent/
+Extract information from your socials/personal blogs into a JSON file.
 
-The agent service which receives the user question and routes the request to Gemini. Ready be deployed as a CloudFlare Worker.
+### agent/
 
-## 3. gui/
+The agent service which receives the user question and routes the request to Gemini. Ready to be deployed as a CloudFlare Worker.
+
+### gui/
 
 The static website with the input prompt. Ready to be deployed as a CloudFlare Page.
