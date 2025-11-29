@@ -5,6 +5,29 @@ export default {
     if (pathname !== "/chat") return cors(new Response("Not found", { status: 404 }));
     if (req.method !== "POST") return cors(new Response("Use POST", { status: 405 }));
 
+    // --- Rate limit (IP-based) ---
+    const rateLimiters = [
+      env?.IP_LIMITER_BURST,
+      env?.IP_LIMITER_MINUTE,
+      env?.IP_LIMITER, // backward compatibility if only one limiter is configured
+    ].filter((l: any) => l?.limit);
+
+    if (rateLimiters.length > 0) {
+      const ip = req.headers.get("CF-Connecting-IP") ?? "unknown";
+      for (const limiter of rateLimiters) {
+        const result = await limiter.limit({ key: ip });
+        if (!result.success) {
+          const resetMs = Number(result.reset);
+          const retryAfterSeconds = Number.isFinite(resetMs)
+            ? Math.max(1, Math.ceil((resetMs - Date.now()) / 1000))
+            : 60;
+          const h = new Headers({ "Content-Type": "application/json" });
+          if (Number.isFinite(retryAfterSeconds)) h.set("Retry-After", String(retryAfterSeconds));
+          return cors(new Response(JSON.stringify({ error: "rate_limited", retry_after_seconds: retryAfterSeconds }), { status: 429, headers: h }));
+        }
+      }
+    }
+
     // --- Load context from R2 ---
     const contextKey = env.CONTEXT_KEY ?? "diego-giorgini-y4tfirbg/latest/extraction.md";
     const obj = await env.R2.get(contextKey);

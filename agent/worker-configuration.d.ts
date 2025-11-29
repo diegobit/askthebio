@@ -11,6 +11,8 @@ declare namespace Cloudflare {
 		CONTEXT_KEY: "diego-giorgini-y4tfirbg/latest/extraction.md";
 		MAX_OUTPUT_TOKENS?: string;
 		R2: R2Bucket;
+		IP_LIMITER_BURST: RateLimit;
+		IP_LIMITER_MINUTE: RateLimit;
 	}
 }
 interface Env extends Cloudflare.Env {}
