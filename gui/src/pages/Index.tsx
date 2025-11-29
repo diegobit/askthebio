@@ -1,7 +1,7 @@
-import PersonalAIChat from "@/components/PersonalAIChat";
+import ChatView from "@/components/ChatView";
 
 const Index = () => {
-  return <PersonalAIChat />;
+  return <ChatView />;
 };
 
 export default Index;

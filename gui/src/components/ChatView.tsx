@@ -43,7 +43,7 @@ const markdownComponents: Components = {
   em: ({ children }) => <em className="italic text-ink">{children}</em>,
 };
 
-const PersonalAIChat = () => {
+const ChatView = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [responseText, setResponseText] = useState("");
@@ -414,4 +414,4 @@ const PersonalAIChat = () => {
   );
 };
 
-export default PersonalAIChat;
+export default ChatView;
