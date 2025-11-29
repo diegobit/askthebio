@@ -1,4 +1,3 @@
-// src/index.ts (Gemini 2.5 Flash streaming, R2 context)
 export default {
   async fetch(req: Request, env: any): Promise<Response> {
     const { pathname } = new URL(req.url);
