@@ -16,10 +16,10 @@ MAX_OUTPUT_TOKENS = 8192
 [[ratelimits]]
 # N requests every M seconds
 name = "IP_LIMITER_BURST"
-namespace_id = "REPLACE_WITH_BURST_NAMESPACE_ID"
+namespace_id = "1001"
 simple = { limit = 10, period = 10 }
 
 [[ratelimits]]
 name = "IP_LIMITER_MINUTE"
-namespace_id = "REPLACE_WITH_MINUTE_NAMESPACE_ID"
+namespace_id = "1002"
 simple = { limit = 20, period = 60 }
