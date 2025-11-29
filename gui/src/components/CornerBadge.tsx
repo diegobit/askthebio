@@ -41,35 +41,29 @@ export function CornerInfoBadge() {
         </button>
 
         <Bubble
-          href="https://diegobit.com"
+          href="/privacy"
           open={isOpen}
-          className="-translate-x-14 translate-y-4 rotate-[-8deg] min-w-[8.5rem]"
+          className="-translate-x-5 translate-y-20 rotate-[-50deg] min-w-[8.2rem]"
         >
-          <span className="font-bold">who</span>&nbsp;&nbsp;diegobit &nbsp;↗
+          <span className="font-bold">privacy policy</span>&nbsp;↗
         </Bubble>
+
         <Bubble
           href="https://diegobit.com"
           open={isOpen}
-          className="-translate-x-11 translate-y-14 rotate-[-28deg] min-w-[10.5rem]"
+          className="-translate-x-11 translate-y-12 rotate-[-28deg] min-w-[8.2rem]"
         >
-          <span className="font-bold">what</span>&nbsp;&nbsp;crawl-yourself &nbsp;↗
+          <span className="font-bold">source code</span>&nbsp;↗
         </Bubble>
         
         <Bubble
           href="https://diegobit.com"
           open={isOpen}
-          className="-translate-x-6 translate-y-20 rotate-[-44deg] min-w-[8.5rem]"
+          className="-translate-x-14 translate-y-3 rotate-[-8deg] min-w-[8.2rem]"
         >
-          <span className="font-bold">how</span>&nbsp;&nbsp;I made it &nbsp;↗
+          <span className="font-bold">blog post</span>&nbsp;↗
         </Bubble>
-        <Bubble
-          href="/privacy"
-          open={isOpen}
-          external={false}
-          className="-translate-x-1 translate-y-28 rotate-[-60deg] min-w-[9rem]"
-        >
-          <span className="font-bold">privacy</span>&nbsp;&nbsp;policy
-        </Bubble>
+
       </div>
     </div>
   );
