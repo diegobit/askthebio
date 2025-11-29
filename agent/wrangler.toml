@@ -14,7 +14,7 @@ CONTEXT_SNIPPET_LENGTH = 500000
 MAX_OUTPUT_TOKENS = 8192
 
 [[ratelimits]]
-# 5 requests every 10 seconds (burst)
+# N requests every M seconds
 name = "IP_LIMITER_BURST"
 namespace_id = "REPLACE_WITH_BURST_NAMESPACE_ID"
 simple = { limit = 10, period = 10 }
