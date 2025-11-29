@@ -93,7 +93,27 @@ const PersonalAIChat = () => {
       if (!response.ok) {
         const fallbackMessage = `Request failed with status ${response.status}`;
         const errorBody = await response.text().catch(() => "");
-        throw new Error(errorBody || fallbackMessage);
+
+        let formattedMessage = fallbackMessage;
+
+        if (errorBody) {
+          try {
+            const parsedBody = JSON.parse(errorBody) as {
+              error?: string;
+              retry_after_seconds?: number;
+            };
+
+            if (parsedBody.error === "rate_limited") {
+              formattedMessage = "Oops! You've hit the rate limit. Please wait a bit... don't make me poor 🥺";
+            } else if (parsedBody.error) {
+              formattedMessage = parsedBody.error;
+            }
+          } catch {
+            formattedMessage = errorBody || fallbackMessage;
+          }
+        }
+
+        throw new Error(formattedMessage);
       }
 
       if (!response.body) {
