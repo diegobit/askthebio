@@ -18,7 +18,9 @@ const Privacy = () => {
           <div className="mt-6 space-y-4 text-base text-black/70 dark:text-white/75 leading-relaxed">
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">Data controller</h2>
-              <p className="mt-1">This site is operated by <strong>Diego Giorgini</strong>.</p>
+              <p className="mt-1">
+                This site is operated by <strong>Diego Giorgini</strong>.
+              </p>
               <p>
                 Contact:{" "}
                 <a
@@ -33,7 +35,10 @@ const Privacy = () => {
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">What data is processed</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li>The <strong>text you type</strong> into the input box.</li>
+                <li>
+                  The <strong>text you type</strong> into the input box (both to send it to the AI model and for
+                  short-term logging).
+                </li>
                 <li>
                   <strong>Technical data</strong> needed to run and protect the service, such as IP address,
                   date/time, requested URL and basic browser info (User-Agent).
@@ -44,40 +49,75 @@ const Privacy = () => {
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">How your data is used</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li>To send your message to <strong>Google Gemini</strong> and return an answer.</li>
-                <li>To protect the service from abuse and manage costs (e.g. rate limiting based on IP and request frequency).</li>
+                <li>
+                  To send your message to <strong>Google Gemini</strong> and return an answer.
+                </li>
+                <li>
+                  To protect the service from abuse and manage costs (e.g. rate limiting based on IP and request
+                  frequency).
+                </li>
+                <li>
+                  To keep a <strong>temporary log</strong> of requests (stored for up to 3&nbsp;months in Cloudflare KV)
+                  so I can debug issues, monitor reliability and detect abuse.
+                </li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">Legal basis (GDPR)</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li>Providing the AI answers: <strong>performance of a contract / pre-contractual steps</strong> (Art. 6(1)(b) GDPR).</li>
-                <li>Security, abuse prevention and cost control: <strong>legitimate interest</strong> (Art. 6(1)(f) GDPR).</li>
+                <li>
+                  Providing the AI answers:{" "}
+                  <strong>performance of a contract / pre-contractual steps</strong> (Art. 6(1)(b) GDPR).
+                </li>
+                <li>
+                  Security, abuse prevention, cost control and debugging:{" "}
+                  <strong>legitimate interest</strong> (Art. 6(1)(f) GDPR).
+                </li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">Providers</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li><strong>Google (Gemini)</strong> processes your messages to generate answers.</li>
-                <li><strong>Cloudflare</strong> (Pages, Workers, security features) processes IP and request metadata to deliver and protect the site.</li>
+                <li>
+                  <strong>Google (Gemini)</strong> processes your messages to generate answers.
+                </li>
+                <li>
+                  <strong>Cloudflare</strong> (Pages, Workers, KV storage, security features) processes IP, request
+                  metadata and the temporary KV logs needed to deliver, store and protect the site.
+                </li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">Cookies and tracking</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li>No <strong>analytics or advertising cookies</strong> and no third-party tracking are used.</li>
-                <li>Cloudflare may use <strong>strictly necessary technical cookies</strong> only for security and performance.</li>
+                <li>
+                  No <strong>analytics or advertising cookies</strong> and no third-party tracking are used.
+                </li>
+                <li>
+                  Cloudflare may use <strong>strictly necessary technical cookies</strong> only for security and
+                  performance.
+                </li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-black/85 dark:text-white/85">Logs and retention</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                <li>No custom server-side logging is enabled. Cloudflare may retain minimal technical logs (IP, request metadata, error information) for security and performance according to their default retention.</li>
-                <li>I do not build long-term profiles from your usage.</li>
+                <li>
+                  Your message and related technical metadata are stored in an application log in{" "}
+                  <strong>Cloudflare KV</strong> for up to <strong>3&nbsp;months</strong>, then routinely deleted.
+                </li>
+                <li>
+                  Separately, Cloudflare may retain minimal technical logs (IP, request metadata, error information) for
+                  security and performance according to their default retention.
+                </li>
+                <li>
+                  I do not build long-term profiles from your usage and I do not sell or share your logs with third
+                  parties for marketing.
+                </li>
               </ul>
             </section>
 
@@ -115,3 +155,4 @@ const Privacy = () => {
 };
 
 export default Privacy;
+
