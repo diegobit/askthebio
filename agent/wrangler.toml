@@ -13,6 +13,12 @@ PERSON_NAME = "Diego Giorgini"
 CONTEXT_KEY = "diego-giorgini-y4tfirbg/latest/extraction.md"
 CONTEXT_SNIPPET_LENGTH = 500000
 MAX_OUTPUT_TOKENS = 8192
+LOG_GEMINI_IO = "true"
+
+[[kv_namespaces]]
+binding = "LOGS_KV"
+id = "5c2e685363954d7e9cd96a7a46e3c276"
+preview_id = "6913f5af036c44ec901cd5f3dd01e1a8"
 
 [[ratelimits]]
 # N requests every M seconds
