@@ -49,7 +49,7 @@ export function CornerInfoBadge() {
         </Bubble>
 
         <Bubble
-          href="https://diegobit.com"
+          href="https://github.com/diegobit/askthebio"
           open={isOpen}
           className="-translate-x-11 translate-y-12 rotate-[-28deg] min-w-[8.2rem]"
         >
@@ -57,7 +57,7 @@ export function CornerInfoBadge() {
         </Bubble>
         
         <Bubble
-          href="https://diegobit.com"
+          href="https://diegobit.com/post/ask-the-bio"
           open={isOpen}
           className="-translate-x-14 translate-y-3 rotate-[-8deg] min-w-[8.2rem]"
         >
