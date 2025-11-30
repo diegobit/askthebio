@@ -5,6 +5,7 @@ compatibility_date = "2025-10-26"
 [[r2_buckets]]
 binding = "R2"
 bucket_name = "askthebio-data"
+preview_bucket_name = "askthebio-data-preview"
 
 [vars]
 GEMINI_MODEL = "gemini-2.5-flash-lite"
