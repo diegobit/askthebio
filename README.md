@@ -8,7 +8,7 @@
 
 This repo holds the code of a proof of concept for the AI Biographer!
 
-Read the [accompanying article!]()
+Read the [accompanying article!](https://diegobit.com/post/ask-the-bio)
 
 [Try it out](https://askthebio.diegobit.com) asking stuff about me 🙈.
 
