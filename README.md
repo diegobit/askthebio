@@ -14,7 +14,7 @@ Read the [accompanying article!](https://diegobit.com/post/ask-the-bio)
 
 ### crawl/
 
-Extract information from your socials/personal blogs into a JSON file.
+Extract information from your socials/personal blogs into a JSON or markdown file.
 
 ### agent/
 
