@@ -24,7 +24,7 @@ const Privacy = () => {
               <p>
                 Contact:{" "}
                 <a
-                  href="mailto:hello+privacy@diegobit.com"
+                  href="mailto:privacy@diegobit.com"
                   className="text-black/75 underline underline-offset-4 transition hover:text-black dark:text-white/80 dark:hover:text-white"
                 >
                   email me
@@ -130,7 +130,7 @@ const Privacy = () => {
               <p>
                 To exercise your rights,{" "}
                 <a
-                  href="mailto:hello+privacy@diegobit.com"
+                  href="mailto:privacy@diegobit.com"
                   className="text-black/75 underline underline-offset-4 transition hover:text-black dark:text-white/80 dark:hover:text-white"
                 >
                   send an email
@@ -155,4 +155,3 @@ const Privacy = () => {
 };
 
 export default Privacy;
-
