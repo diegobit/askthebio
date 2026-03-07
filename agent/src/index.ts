@@ -56,7 +56,7 @@ export default {
       : defaultMaxTokens;
 
     // --- Call Gemini (stream) ---
-    const model = env.GEMINI_MODEL ?? env.MODEL ?? "gemini-2.5-flash";
+    const model = env.GEMINI_MODEL ?? env.MODEL ?? "gemini-3.1-flash-lite-preview";
     const url = new URL(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent`);
     url.searchParams.set("key", env.GOOGLE_API_KEY);
     url.searchParams.set("alt", "sse");
